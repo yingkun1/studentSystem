@@ -1,0 +1,16 @@
+#Durid数据源配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://101.132.138.215:3306/springBoot?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: yingkun9257
+    type: com.alibaba.druid.pool.DruidDataSource
+mybatis:
+  mapper-locations: classpath:/sqlmap/*
+  config-location: classpath:/mybatis-config.xml
+pagehelper:
+  reasonable: true
+  helper-dialect: mysql
+  support-methods-arguments: true
+  params: count=countSql
