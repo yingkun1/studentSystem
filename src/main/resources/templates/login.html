@@ -83,16 +83,17 @@
 
         // 进行登录操作
         form.on('submit(login)', function (data) {
+            console.log(data.field);
             $.ajax({
                 url:"login",
                 type:"POST",
                 dataType:'json',
                 data:data.field,
                 success:function(data){
-                    if(data.code == "1000"){
+                    if(data.code == "200"){
                         location.href = "index";
                     }else{
-                        layer.msg(data.msg,{time:2000});
+                        layer.msg(data.message,{time:2000});
                     }
                 }
             });

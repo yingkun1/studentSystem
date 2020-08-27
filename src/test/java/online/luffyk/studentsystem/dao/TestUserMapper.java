@@ -16,4 +16,10 @@ public class TestUserMapper {
         User user = userMapper.selectByPrimaryKey(1);
         System.out.println(user);
     }
+
+    @Test
+    public void testloginVerifyDao(){
+        User user = userMapper.loginVerifyDao("admin", "93a9ded8a9ab7cb69dba0c0575665204");
+        System.out.println(user);
+    }
 }

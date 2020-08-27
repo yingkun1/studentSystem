@@ -16,4 +16,9 @@ public class UserServiceImpl implements UserService {
     public User selectByPrimaryKeyService(Integer id) {
         return userMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public User loginVerifyService(String userName, String password) {
+        return userMapper.loginVerifyDao(userName,password);
+    }
 }

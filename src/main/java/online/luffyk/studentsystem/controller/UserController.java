@@ -28,6 +28,7 @@ public class UserController {
         return result;
     }
 
+
     //    @ResponseBody
 //    @RequestMapping("getById")
 //    public Object getUser(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum ,@RequestParam(value = "pageSize",defaultValue = "3") Integer pageSize){
