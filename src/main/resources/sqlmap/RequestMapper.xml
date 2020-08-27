@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.luffyk.studentsystem.dao.RequestMapper">
+  <resultMap id="BaseResultMap" type="online.luffyk.studentsystem.domain.Request">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="stu_id" jdbcType="INTEGER" property="stuId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="attach" jdbcType="VARCHAR" property="attach" />
+    <result column="result1" jdbcType="VARCHAR" property="result1" />
+    <result column="result2" jdbcType="VARCHAR" property="result2" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="online.luffyk.studentsystem.domain.Request">
+    <result column="reason" jdbcType="LONGVARCHAR" property="reason" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, type, create_date, stu_id, status, attach, result1, result2
+  </sql>
+  <sql id="Blob_Column_List">
+    reason
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_request
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_request
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="online.luffyk.studentsystem.domain.Request">
+    insert into tb_request (id, title, type, 
+      create_date, stu_id, status, 
+      attach, result1, result2, 
+      reason)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{stuId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{attach,jdbcType=VARCHAR}, #{result1,jdbcType=VARCHAR}, #{result2,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="online.luffyk.studentsystem.domain.Request">
+    insert into tb_request
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="stuId != null">
+        stu_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="attach != null">
+        attach,
+      </if>
+      <if test="result1 != null">
+        result1,
+      </if>
+      <if test="result2 != null">
+        result2,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stuId != null">
+        #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="attach != null">
+        #{attach,jdbcType=VARCHAR},
+      </if>
+      <if test="result1 != null">
+        #{result1,jdbcType=VARCHAR},
+      </if>
+      <if test="result2 != null">
+        #{result2,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="online.luffyk.studentsystem.domain.Request">
+    update tb_request
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stuId != null">
+        stu_id = #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="attach != null">
+        attach = #{attach,jdbcType=VARCHAR},
+      </if>
+      <if test="result1 != null">
+        result1 = #{result1,jdbcType=VARCHAR},
+      </if>
+      <if test="result2 != null">
+        result2 = #{result2,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="online.luffyk.studentsystem.domain.Request">
+    update tb_request
+    set title = #{title,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      stu_id = #{stuId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      attach = #{attach,jdbcType=VARCHAR},
+      result1 = #{result1,jdbcType=VARCHAR},
+      result2 = #{result2,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="online.luffyk.studentsystem.domain.Request">
+    update tb_request
+    set title = #{title,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      stu_id = #{stuId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      attach = #{attach,jdbcType=VARCHAR},
+      result1 = #{result1,jdbcType=VARCHAR},
+      result2 = #{result2,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

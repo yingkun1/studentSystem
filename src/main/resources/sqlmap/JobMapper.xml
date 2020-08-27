@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.luffyk.studentsystem.dao.JobMapper">
+  <resultMap id="BaseResultMap" type="online.luffyk.studentsystem.domain.Job">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="comp_name" jdbcType="VARCHAR" property="compName" />
+    <result column="job_date" jdbcType="VARCHAR" property="jobDate" />
+    <result column="salay" jdbcType="INTEGER" property="salay" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="stu_id" jdbcType="INTEGER" property="stuId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, comp_name, job_date, salay, remark, stu_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_job
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_job
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="online.luffyk.studentsystem.domain.Job">
+    insert into tb_job (id, comp_name, job_date, 
+      salay, remark, stu_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{compName,jdbcType=VARCHAR}, #{jobDate,jdbcType=VARCHAR}, 
+      #{salay,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{stuId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="online.luffyk.studentsystem.domain.Job">
+    insert into tb_job
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="compName != null">
+        comp_name,
+      </if>
+      <if test="jobDate != null">
+        job_date,
+      </if>
+      <if test="salay != null">
+        salay,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="stuId != null">
+        stu_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="compName != null">
+        #{compName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobDate != null">
+        #{jobDate,jdbcType=VARCHAR},
+      </if>
+      <if test="salay != null">
+        #{salay,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="stuId != null">
+        #{stuId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="online.luffyk.studentsystem.domain.Job">
+    update tb_job
+    <set>
+      <if test="compName != null">
+        comp_name = #{compName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobDate != null">
+        job_date = #{jobDate,jdbcType=VARCHAR},
+      </if>
+      <if test="salay != null">
+        salay = #{salay,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="stuId != null">
+        stu_id = #{stuId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="online.luffyk.studentsystem.domain.Job">
+    update tb_job
+    set comp_name = #{compName,jdbcType=VARCHAR},
+      job_date = #{jobDate,jdbcType=VARCHAR},
+      salay = #{salay,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      stu_id = #{stuId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

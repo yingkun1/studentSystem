@@ -1,60 +1,75 @@
 package online.luffyk.studentsystem.domain;
 
 public class User {
-    private Integer userid;
-    private String username;
-    private String password;
-    private String usersex;
+    private Integer id;
+
+    private String userName;
+
+    private String userPwd;
+
+    private String name;
+
+    private String remark;
 
     public User() {
     }
 
-    public User(Integer userid, String username, String password, String usersex) {
-        this.userid = userid;
-        this.username = username;
-        this.password = password;
-        this.usersex = usersex;
+    public User(Integer id, String userName, String userPwd, String name, String remark) {
+        this.id = id;
+        this.userName = userName;
+        this.userPwd = userPwd;
+        this.name = name;
+        this.remark = remark;
     }
 
-    public Integer getUserid() {
-        return userid;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
     }
 
-    public String getPassword() {
-        return password;
+    public String getUserPwd() {
+        return userPwd;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUserPwd(String userPwd) {
+        this.userPwd = userPwd == null ? null : userPwd.trim();
     }
 
-    public String getUsersex() {
-        return usersex;
+    public String getName() {
+        return name;
     }
 
-    public void setUsersex(String usersex) {
-        this.usersex = usersex;
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "userid=" + userid +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", usersex='" + usersex + '\'' +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", userPwd='" + userPwd + '\'' +
+                ", name='" + name + '\'' +
+                ", remark='" + remark + '\'' +
                 '}';
     }
 }

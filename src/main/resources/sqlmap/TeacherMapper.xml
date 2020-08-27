@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.luffyk.studentsystem.dao.TeacherMapper">
+  <resultMap id="BaseResultMap" type="online.luffyk.studentsystem.domain.Teacher">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+    <result column="teacher_pwd" jdbcType="VARCHAR" property="teacherPwd" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, teacher_name, teacher_pwd, remark, name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_teacher
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_teacher
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="online.luffyk.studentsystem.domain.Teacher">
+    insert into tb_teacher (id, teacher_name, teacher_pwd, 
+      remark, name)
+    values (#{id,jdbcType=INTEGER}, #{teacherName,jdbcType=VARCHAR}, #{teacherPwd,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="online.luffyk.studentsystem.domain.Teacher">
+    insert into tb_teacher
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="teacherName != null">
+        teacher_name,
+      </if>
+      <if test="teacherPwd != null">
+        teacher_pwd,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="teacherName != null">
+        #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherPwd != null">
+        #{teacherPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="online.luffyk.studentsystem.domain.Teacher">
+    update tb_teacher
+    <set>
+      <if test="teacherName != null">
+        teacher_name = #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherPwd != null">
+        teacher_pwd = #{teacherPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="online.luffyk.studentsystem.domain.Teacher">
+    update tb_teacher
+    set teacher_name = #{teacherName,jdbcType=VARCHAR},
+      teacher_pwd = #{teacherPwd,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

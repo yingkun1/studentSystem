@@ -1,9 +1,6 @@
 package online.luffyk.studentsystem.controller;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import online.luffyk.studentsystem.domain.User;
-import online.luffyk.studentsystem.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,8 +11,6 @@ import java.util.List;
 
 @Controller
 public class UserController {
-    @Resource
-    private UserService userService;
 
     @ResponseBody
     @RequestMapping("hello")
@@ -28,7 +23,8 @@ public class UserController {
     public Object getUser(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum ,@RequestParam(value = "pageSize",defaultValue = "3") Integer pageSize){
         System.out.println("pageNum:"+pageNum+"pageSize:"+pageSize);
         PageHelper.startPage(pageNum,pageSize);
-        List<User> users = userService.showAllUserService();
-        return users;
+//        List<User> users = userService.showAllUserService();
+//        return users;
+        return null;
     }
 }

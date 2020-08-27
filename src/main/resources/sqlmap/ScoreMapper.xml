@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.luffyk.studentsystem.dao.ScoreMapper">
+  <resultMap id="BaseResultMap" type="online.luffyk.studentsystem.domain.Score">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="section_id" jdbcType="INTEGER" property="sectionId" />
+    <result column="course_id" jdbcType="INTEGER" property="courseId" />
+    <result column="stu_id" jdbcType="INTEGER" property="stuId" />
+    <result column="score" jdbcType="DECIMAL" property="score" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, section_id, course_id, stu_id, score
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_score
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_score
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="online.luffyk.studentsystem.domain.Score">
+    insert into tb_score (id, section_id, course_id, 
+      stu_id, score)
+    values (#{id,jdbcType=INTEGER}, #{sectionId,jdbcType=INTEGER}, #{courseId,jdbcType=INTEGER}, 
+      #{stuId,jdbcType=INTEGER}, #{score,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="online.luffyk.studentsystem.domain.Score">
+    insert into tb_score
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sectionId != null">
+        section_id,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="stuId != null">
+        stu_id,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sectionId != null">
+        #{sectionId,jdbcType=INTEGER},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="stuId != null">
+        #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="online.luffyk.studentsystem.domain.Score">
+    update tb_score
+    <set>
+      <if test="sectionId != null">
+        section_id = #{sectionId,jdbcType=INTEGER},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="stuId != null">
+        stu_id = #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="online.luffyk.studentsystem.domain.Score">
+    update tb_score
+    set section_id = #{sectionId,jdbcType=INTEGER},
+      course_id = #{courseId,jdbcType=INTEGER},
+      stu_id = #{stuId,jdbcType=INTEGER},
+      score = #{score,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
