@@ -18,6 +18,10 @@
     <result column="clazz_id" jdbcType="INTEGER" property="clazzId" />
     <result column="subject_id" jdbcType="INTEGER" property="subjectId" />
   </resultMap>
+
+  <select id="loginVerifyDao" resultMap="BaseResultMap">
+    select * from tb_student where stu_name=#{userName} and stu_pwd=#{password}
+  </select>
   <sql id="Base_Column_List">
     id, stu_no, stu_name, stu_pwd, card_no, gender, birthday, phone, pname, telephone, 
     addr, join_date, status, clazz_id, subject_id

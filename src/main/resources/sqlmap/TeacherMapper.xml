@@ -8,6 +8,12 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="name" jdbcType="VARCHAR" property="name" />
   </resultMap>
+
+  <select id="loginVerifyDao" resultMap="BaseResultMap">
+    select * from tb_teacher where teacher_name=#{userName} and teacher_pwd=#{password}
+  </select>
+
+
   <sql id="Base_Column_List">
     id, teacher_name, teacher_pwd, remark, name
   </sql>

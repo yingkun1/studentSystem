@@ -19,7 +19,7 @@ public class TestUserMapper {
 
     @Test
     public void testloginVerifyDao(){
-        User user = userMapper.loginVerifyDao("admin", "93a9ded8a9ab7cb69dba0c0575665204");
+        User user = userMapper.loginVerifyDao("admin", "21232f297a57a5a743894a0e4a801fc3");
         System.out.println(user);
     }
 }

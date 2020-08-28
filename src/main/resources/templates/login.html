@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>学生学籍管理系统-登陆</title>
+    <title>学生信息管理系统-登陆</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -31,7 +31,7 @@
         <div class="layui-form login-form">
             <form class="layui-form">
                 <div class="layui-form-item logo-title">
-                    <h1>学生学籍管理系统</h1>
+                    <h1>学生信息管理系统</h1>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-username"></label>
@@ -91,7 +91,7 @@
                 data:data.field,
                 success:function(data){
                     if(data.code == "200"){
-                        location.href = "index";
+                        location.href = "index.html";
                     }else{
                         layer.msg(data.message,{time:2000});
                     }
