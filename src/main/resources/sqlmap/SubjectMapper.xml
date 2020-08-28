@@ -7,6 +7,17 @@
     <result column="college" jdbcType="VARCHAR" property="college" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
+  <select id="showAllSubjectDao" resultMap="BaseResultMap">
+    select * from tb_subject
+    <where>
+      <if test="subjectName!=null and subjectName!=''">
+        and subject_name like CONCAT("%",#{subjectName},"%")
+      </if>
+      <if test="college!=null and college!=''">
+        and college like CONCAT("%",#{college},"%")
+      </if>
+    </where>
+  </select>
   <sql id="Base_Column_List">
     id, subject_name, college, remark
   </sql>

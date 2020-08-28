@@ -10,7 +10,7 @@ mybatis:
   mapper-locations: classpath:/sqlmap/*
   config-location: classpath:/mybatis-config.xml
 pagehelper:
-  reasonable: true
-  helper-dialect: mysql
+  reasonable: true #分页参数合理化
+  helper-dialect: mysql  #方言
   support-methods-arguments: true
   params: count=countSql

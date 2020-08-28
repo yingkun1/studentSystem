@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>专业管理</title>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <div style="margin: 10px">
+            <form action="" class="layui-form layui-form-pane">
+                <div class="layui-form-item"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="layuimini-container layuimini-page-anim">
+    <div class="layuimini-main">
+        <div style="margin: 10px">
+            <form class="layui-form layui-form-pane">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">专业名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="subjectName" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">所属院系</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="college" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layui-btn-primary"  lay-submit lay-filter="search-btn"><i class="layui-icon"></i> 搜 索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <script type="text/html" id="toolbar">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add">
+                    <i class="fa fa-plus"></i>
+                    添加
+                </button>
+                <button class="layui-btn layui-btn-sm layui-btn-normal data-delete-btn" lay-event="update">
+                    <i class="fa fa-pencil"></i>
+                    修改
+                </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete">
+                    <i class="fa fa-remove"></i>
+                    删除
+                </button>
+            </div>
+        </script>
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
+</div>
+<script>
+    layui.use(['form','table','jquery'],function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+        table.render({
+            elem: '#currentTableId',
+            url: '/subject/query',
+            // contentType:'application/json',
+            method:"post",
+            toolbar: '#toolbar',
+            defaultToolbar: ['filter', 'exports', 'print'],
+            page: true,
+            height: 615, //固定值
+            cols: [
+                [
+                {type: "checkbox", width: 50},
+                {field: 'id', width: 80, title: 'ID'},
+                {field: 'subjectName',  title: '专业名称'},
+                {field: 'college', title: '所属系'},
+                {field: 'remark',title: '备注'}
+                ]
+            ],
+            // skin: 'line'
+        });
+        form.on('submit(search-btn)',function (data) {
+            console.log("点击了搜索按钮，表单准备提交");
+            console.log(data.field);
+            table.reload("currentTableId",{
+                url:'/subject/query',
+                where:data.field
+            })
+            return false;
+        });
+        table.on('toolbar(currentTableFilter)',function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            let data = checkStatus.data;
+            var ids = "";
+            console.log(data);
+            for(var i = 0;i<data.length;i++){
+                if(i<data.length-1){
+                    ids = ids+ data[i].id+"-";
+                }else {
+                    ids = ids + data[i].id
+                }
+            }
+            console.log(ids);
+
+            if(obj.event == 'add'){
+                console.log("点击了添加按钮");
+            }
+            if(obj.event == 'update'){
+                console.log("点击了编辑按钮");
+            }
+            if(obj.event == 'delete'){
+                console.log("点击了删除按钮");
+                layer.confirm("确定要删除这些数据吗?",function (index) {
+                    $.ajax({
+                        url:'/subject/delete',
+                        type: 'POST',
+                        dataType:'json',
+                        data:{
+                            ids:ids
+                        },
+                        success:function (data) {
+                            if(data.code == 200){
+                                console.log("删除成功");
+                                layer.msg(data.message,{time:500},function () {
+                                    table.reload("currentTableId",{
+                                        url:'/subject/query'
+                                    })
+                                })
+
+                            }else if(data.code == 400){
+                                console.log("删除失败");
+                            }
+
+                        },
+                        error:function (data) {
+                            console.log("删除失败")
+                        }
+                    })
+                    layer.close(index);
+                })
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

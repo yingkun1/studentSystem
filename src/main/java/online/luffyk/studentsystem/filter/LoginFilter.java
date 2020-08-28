@@ -32,7 +32,7 @@ public class LoginFilter implements Filter {
             if(user!=null){
                 filterChain.doFilter(servletRequest,servletResponse);
             }else{
-                response.sendRedirect("login");
+                response.sendRedirect("/login");
             }
         }
 
