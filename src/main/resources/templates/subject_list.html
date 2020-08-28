@@ -107,6 +107,18 @@
 
             if(obj.event == 'add'){
                 console.log("点击了添加按钮");
+                layer.open({
+                    title:'添加用户',
+                    type: 2,
+                    shade: 0.2,
+                    area: ['75%','75%'],
+                    maxmin: true,
+                    content: '/subject/add',
+                    zIndex: layer.zIndex, //重点1
+                    success: function(layero){
+                        layer.setTop(layero); //重点2
+                    }
+                });
             }
             if(obj.event == 'update'){
                 console.log("点击了编辑按钮");

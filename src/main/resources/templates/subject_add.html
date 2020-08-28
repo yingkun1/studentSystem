@@ -1,10 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>Title</title>
-</head>
+    <link rel="stylesheet" href="/lib/layui-src/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="/css/style.css" media="all">
 <body>
-    <div>这是专业添加页面</div>
+<div>这是专业添加页面</div>
+<div class="layuimini-container layuimini=page-anim">
+    <div class="layuimini-main width_60">
+        <form action="" class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">专业名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="subjectName" required lay-verify="required" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属院系</label>
+                <div class="layui-input-block">
+                    <input type="text" name="college" required lay-verify="required" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <input type="text" name="remark" required lay-verify="required" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-primary layui-btn-sm data-add-btn">
+                        <i class="fa fa-refresh"></i>
+                        重置
+                    </button>
+                    <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-submit lay-filter="save">
+                        <i class="fa fa-save"></i>
+                        保存
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/lib/layui-src/layui.js" charset="utf-8"></script>
+<script src="/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+<script>
+    layui.use(['form','jquery'], function () {
+        var form = layui.form,
+            $ = layui.jquery;
+        form.on('submit(save)',function (data) {
+            console.log("点击了提交按钮，准备添加数据");
+            console.log(data.field);
+            $.ajax({
+                url:'/subject/add',
+                type:'POST',
+                dataType:'json',
+                data:data.field,
+                success:function (data) {
+                    console.log("添加成功");
+                },
+                error:function (data) {
+                    console.log("添加失败");
+                }
+            })
+            return false;
+        })
+    });
+</script>
+
+
 </body>
 </html>
