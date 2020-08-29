@@ -12,4 +12,11 @@ public interface StudentService {
      * @return 获取所有的学生信息
      */
     List<Student> queryAllStudentService(Student student);
+
+    /**
+     *
+     * @param id 主键
+     * @return 受影响的行数
+     */
+    Integer deleteByPrimaryKeyService(Integer id);
 }

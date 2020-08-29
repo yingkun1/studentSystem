@@ -4,6 +4,7 @@ import online.luffyk.studentsystem.dao.StudentMapper;
 import online.luffyk.studentsystem.domain.Student;
 import online.luffyk.studentsystem.service.StudentService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -20,5 +21,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Student> queryAllStudentService(Student student) {
         return studentMapper.queryAllStudentDao(student);
+    }
+
+    @Transactional
+    @Override
+    public Integer deleteByPrimaryKeyService(Integer id) {
+        return studentMapper.deleteByPrimaryKey(id);
     }
 }

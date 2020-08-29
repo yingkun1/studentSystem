@@ -3,9 +3,15 @@ package online.luffyk.studentsystem.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import online.luffyk.studentsystem.domain.Student;
+import online.luffyk.studentsystem.domain.Subject;
 import online.luffyk.studentsystem.service.StudentService;
+import online.luffyk.studentsystem.service.SubjectService;
+import online.luffyk.studentsystem.utils.Result;
 import online.luffyk.studentsystem.utils.TableResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,8 +22,12 @@ import java.util.List;
 @RequestMapping("student")
 @Controller
 public class StudentController {
+    private Logger logger = LoggerFactory.getLogger(StudentController.class);
     @Resource
     private StudentService studentService;
+
+    @Resource
+    private SubjectService subjectService;
     /**
      *
      * @return  跳转到学生展示页面
@@ -42,5 +52,32 @@ public class StudentController {
         }else{
             return new TableResult(-1,"获取学生信息失败",0,null);
         }
+    }
+
+    /**
+     *
+     * @return 跳转到学生添加页面
+     */
+    @RequestMapping(value = "add",method = RequestMethod.GET)
+    public String addPage(Model model){
+        List<Subject> subjects = subjectService.showAllSubjectService(null);
+        model.addAttribute("subjects",subjects);
+        return "student_add";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "delete",method = RequestMethod.POST)
+    public Object delete(String ids){
+        logger.debug("ids:"+ids);
+        String[] split = ids.split("-");
+        for(String value:split){
+            Integer integer = studentService.deleteByPrimaryKeyService(Integer.valueOf(value));
+            if(integer == 1){
+                logger.debug("删除成功");
+            }else{
+                logger.debug("删除失败");
+            }
+        }
+        return new Result(200,null,"删除成功");
     }
 }

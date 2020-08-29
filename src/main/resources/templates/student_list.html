@@ -65,6 +65,7 @@
                     {type: "checkbox", width: 50},
                     {field: 'id', width: 80, title: 'ID'},
                     {field: 'stuNo',  title: '学生编号'},
+                    {field:'stuName',title:'学生姓名'},
                     {field: 'cardNo', title: '身份证号码'},
                     {field: 'gender',title: '性别'},
                     {field:'phone',title:'手机号码'},
@@ -110,7 +111,7 @@
             if(obj.event == 'add'){
                 console.log("点击了添加按钮");
                 layer.open({
-                    title:'添加用户',
+                    title:'添加学生',
                     type: 2,
                     shade: 0.2,
                     area: ['75%','75%'],
