@@ -1,6 +1,6 @@
 package online.luffyk.studentsystem.domain;
 
-public class Clazz {
+public class Clazz extends Entity{
     private Integer id;
 
     private String clazzName;
@@ -9,14 +9,17 @@ public class Clazz {
 
     private String remark;
 
+    private Subject subject;
+
     public Clazz() {
     }
 
-    public Clazz(Integer id, String clazzName, Integer subjectId, String remark) {
+    public Clazz(Integer id, String clazzName, Integer subjectId, String remark, Subject subject) {
         this.id = id;
         this.clazzName = clazzName;
         this.subjectId = subjectId;
         this.remark = remark;
+        this.subject = subject;
     }
 
     public Integer getId() {
@@ -32,7 +35,7 @@ public class Clazz {
     }
 
     public void setClazzName(String clazzName) {
-        this.clazzName = clazzName == null ? null : clazzName.trim();
+        this.clazzName = clazzName;
     }
 
     public Integer getSubjectId() {
@@ -48,7 +51,15 @@ public class Clazz {
     }
 
     public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+        this.remark = remark;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     @Override
@@ -58,6 +69,7 @@ public class Clazz {
                 ", clazzName='" + clazzName + '\'' +
                 ", subjectId=" + subjectId +
                 ", remark='" + remark + '\'' +
+                ", subject=" + subject +
                 '}';
     }
 }

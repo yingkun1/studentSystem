@@ -6,6 +6,7 @@ import online.luffyk.studentsystem.service.StudentService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -14,5 +15,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student loginVerifyService(String userName, String password) {
         return studentMapper.loginVerifyDao(userName,password);
+    }
+
+    @Override
+    public List<Student> queryAllStudentService(Student student) {
+        return studentMapper.queryAllStudentDao(student);
     }
 }

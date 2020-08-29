@@ -2,7 +2,7 @@ package online.luffyk.studentsystem.domain;
 
 import java.util.Date;
 
-public class Student {
+public class Student extends Entity {
     private Integer id;
 
     private String stuNo;
@@ -33,10 +33,14 @@ public class Student {
 
     private Integer subjectId;
 
+    private Subject subject;
+
+    private Clazz clazz;
+
     public Student() {
     }
 
-    public Student(Integer id, String stuNo, String stuName, String stuPwd, String cardNo, String gender, Date birthday, String phone, String pname, String telephone, String addr, Date joinDate, String status, Integer clazzId, Integer subjectId) {
+    public Student(Integer id, String stuNo, String stuName, String stuPwd, String cardNo, String gender, Date birthday, String phone, String pname, String telephone, String addr, Date joinDate, String status, Integer clazzId, Integer subjectId, Subject subject, Clazz clazz) {
         this.id = id;
         this.stuNo = stuNo;
         this.stuName = stuName;
@@ -52,6 +56,8 @@ public class Student {
         this.status = status;
         this.clazzId = clazzId;
         this.subjectId = subjectId;
+        this.subject = subject;
+        this.clazz = clazz;
     }
 
     public Integer getId() {
@@ -67,7 +73,7 @@ public class Student {
     }
 
     public void setStuNo(String stuNo) {
-        this.stuNo = stuNo == null ? null : stuNo.trim();
+        this.stuNo = stuNo;
     }
 
     public String getStuName() {
@@ -75,7 +81,7 @@ public class Student {
     }
 
     public void setStuName(String stuName) {
-        this.stuName = stuName == null ? null : stuName.trim();
+        this.stuName = stuName;
     }
 
     public String getStuPwd() {
@@ -83,7 +89,7 @@ public class Student {
     }
 
     public void setStuPwd(String stuPwd) {
-        this.stuPwd = stuPwd == null ? null : stuPwd.trim();
+        this.stuPwd = stuPwd;
     }
 
     public String getCardNo() {
@@ -91,7 +97,7 @@ public class Student {
     }
 
     public void setCardNo(String cardNo) {
-        this.cardNo = cardNo == null ? null : cardNo.trim();
+        this.cardNo = cardNo;
     }
 
     public String getGender() {
@@ -99,7 +105,7 @@ public class Student {
     }
 
     public void setGender(String gender) {
-        this.gender = gender == null ? null : gender.trim();
+        this.gender = gender;
     }
 
     public Date getBirthday() {
@@ -115,7 +121,7 @@ public class Student {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+        this.phone = phone;
     }
 
     public String getPname() {
@@ -123,7 +129,7 @@ public class Student {
     }
 
     public void setPname(String pname) {
-        this.pname = pname == null ? null : pname.trim();
+        this.pname = pname;
     }
 
     public String getTelephone() {
@@ -131,7 +137,7 @@ public class Student {
     }
 
     public void setTelephone(String telephone) {
-        this.telephone = telephone == null ? null : telephone.trim();
+        this.telephone = telephone;
     }
 
     public String getAddr() {
@@ -139,7 +145,7 @@ public class Student {
     }
 
     public void setAddr(String addr) {
-        this.addr = addr == null ? null : addr.trim();
+        this.addr = addr;
     }
 
     public Date getJoinDate() {
@@ -155,7 +161,7 @@ public class Student {
     }
 
     public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+        this.status = status;
     }
 
     public Integer getClazzId() {
@@ -172,6 +178,22 @@ public class Student {
 
     public void setSubjectId(Integer subjectId) {
         this.subjectId = subjectId;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
+
+    public Clazz getClazz() {
+        return clazz;
+    }
+
+    public void setClazz(Clazz clazz) {
+        this.clazz = clazz;
     }
 
     @Override
@@ -192,6 +214,8 @@ public class Student {
                 ", status='" + status + '\'' +
                 ", clazzId=" + clazzId +
                 ", subjectId=" + subjectId +
+                ", subject=" + subject +
+                ", clazz=" + clazz +
                 '}';
     }
 }

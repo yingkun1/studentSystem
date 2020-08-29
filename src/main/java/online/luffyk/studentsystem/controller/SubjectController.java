@@ -9,6 +9,7 @@ import online.luffyk.studentsystem.utils.TableResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -23,12 +24,6 @@ public class SubjectController {
 
     @RequestMapping("list")
     public String showAllSubject(){
-//        List<Subject> subjects = subjectService.showAllSubjectService();
-//        if(subjects.size()>0){
-//            return new Result(200,subjects,"获取全部专业信息成功");
-//        }else{
-//            return new Result(400,null,"没有获取到专业信息");
-//        }
         return "subject_list";
     }
 
@@ -41,7 +36,34 @@ public class SubjectController {
     @PostMapping(value = "add")
     public Object addSubjectToDB(Subject subject){
         logger.debug("subject:"+subject);
-        return null;
+        int insert = subjectService.insert(subject);
+        if(insert == 1){
+            return new Result(200,null,"插入数据成功");
+        }else{
+            return new Result(400,null,"插入数据失败");
+        }
+    }
+
+    @RequestMapping(value = "update",method = RequestMethod.GET)
+    public String updateSubject(String ids, Model model){
+        logger.debug("ids:"+ids);
+        Subject subject = subjectService.selectByPrimaryKey(Integer.valueOf(ids));
+        logger.debug("subject:"+subject);
+        model.addAttribute("subject",subject);
+        return "subject_update";
+    }
+
+    @ResponseBody
+    @PostMapping("update")
+    public Object updateSubjectToDB(Subject subject){
+        logger.debug("subject:"+subject);
+        int update = subjectService.updateByPrimaryKeySelectiveService(subject);
+        if(update==1){
+            return new Result(200,null,"更新成功");
+        }else{
+            return new Result(400,null,"更新失败");
+        }
+
     }
 
     @ResponseBody
@@ -60,7 +82,7 @@ public class SubjectController {
         logger.debug("pageInfo:"+pageInfo);
 
         if(subjects.size()>0){
-            return new TableResult(1000,"获取全部专业信息成功",subjects.size(),subjects);
+            return new TableResult(1000,"获取全部专业信息成功",Integer.valueOf(String.valueOf(pageInfo.getTotal())),subjects);
         }else{
             return new TableResult(-1,"获取全部专业信息失败",0,subjects);
         }

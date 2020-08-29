@@ -10,6 +10,44 @@
   <sql id="Base_Column_List">
     id, clazz_name, subject_id, remark
   </sql>
+
+  <select id="showAllClazzDao" resultMap="BaseResultMap">
+     select * from tb_clazz
+     <where>
+       <if test="clazzName!=null and clazzName!=''">
+         and clazz_name like CONCAT("%",#{clazzName},"%")
+       </if>
+     </where>
+  </select>
+
+  <resultMap id="subjectResultMap" type="Subject">
+    <id column="sId" property="id"/>
+    <result column="subject_name" property="subjectName"/>
+  </resultMap>
+  <resultMap id="clazzAndSubject" type="Clazz">
+    <id column="id" property="id"/>
+    <result column="clazz_name" property="clazzName"/>
+    <result column="subject_id" property="subjectId"/>
+    <result column="remark" property="remark"/>
+    <association property="subject" resultMap="subjectResultMap"/>
+  </resultMap>
+  <select id="showAllClazz2Dao" resultMap="clazzAndSubject">
+    SELECT
+        c.id,
+        c.clazz_name,
+        c.subject_id,
+        c.remark,
+        s.subject_name,
+        s.id as sId
+    FROM
+        tb_clazz AS c
+        LEFT JOIN tb_subject AS s ON c.subject_id = s.id
+    <where>
+      <if test="clazzName!=null and clazzName!=''">
+        and clazz_name like CONCAT("%",#{clazzName},"%")
+      </if>
+    </where>
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

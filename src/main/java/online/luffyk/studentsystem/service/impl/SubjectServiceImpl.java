@@ -24,4 +24,21 @@ public class SubjectServiceImpl implements SubjectService {
     public Integer deleteByPrimaryKeyService(Integer id) {
         return subjectMapper.deleteByPrimaryKey(id);
     }
+
+    @Transactional
+    @Override
+    public int insert(Subject record) {
+        return subjectMapper.insert(record);
+    }
+
+    @Override
+    public Subject selectByPrimaryKey(Integer id) {
+        return subjectMapper.selectByPrimaryKey(id);
+    }
+
+    @Transactional
+    @Override
+    public int updateByPrimaryKeySelectiveService(Subject record) {
+        return subjectMapper.updateByPrimaryKeySelective(record);
+    }
 }

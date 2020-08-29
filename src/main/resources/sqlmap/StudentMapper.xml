@@ -22,6 +22,48 @@
   <select id="loginVerifyDao" resultMap="BaseResultMap">
     select * from tb_student where stu_name=#{userName} and stu_pwd=#{password}
   </select>
+
+  <resultMap id="subjectMap" type="Subject">
+    <id column="subId" property="id"/>
+    <result column="subject_name" property="subjectName"/>
+  </resultMap>
+  <resultMap id="clazzMap" type="Clazz">
+    <id column="claId" property="id"/>
+    <result column="clazz_name" property="clazzName"/>
+  </resultMap>
+  <resultMap id="StuAndSubAndClaResultMap" type="Student">
+    <id column="id" property="id"/>
+    <result column="stu_no" property="stuNo"/>
+    <result column="card_no" property="cardNo"/>
+    <result column="gender" property="gender"/>
+    <result column="phone" property="phone"/>
+    <result column="join_date" property="joinDate"/>
+    <result column="status" property="status"/>
+    <association property="subject" resultMap="subjectMap"/>
+    <association property="clazz" resultMap="clazzMap"/>
+  </resultMap>
+  <select id="queryAllStudentDao" resultMap="StuAndSubAndClaResultMap">
+    SELECT
+    stu.id,
+    stu.stu_no,
+    stu.card_no,
+    stu.gender,
+    stu.phone,
+    stu.join_date,
+    sub.id AS subId,
+    sub.subject_name,
+    cla.id AS claId,
+    cla.clazz_name
+    FROM
+    tb_student AS stu
+    LEFT JOIN tb_subject AS sub ON stu.subject_id = sub.id
+    LEFT JOIN tb_clazz AS cla ON stu.clazz_id = cla.id
+    <where>
+      <if test="stuName!=null and stuName!=''">
+        stu_name like CONCAT("%",#{stuName},"%")
+      </if>
+    </where>
+  </select>
   <sql id="Base_Column_List">
     id, stu_no, stu_name, stu_pwd, card_no, gender, birthday, phone, pname, telephone, 
     addr, join_date, status, clazz_id, subject_id

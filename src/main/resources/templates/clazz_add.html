@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Title</title>
     <link rel="stylesheet" href="/lib/layui-src/css/layui.css" media="all">
     <link rel="stylesheet" href="/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
     <link rel="stylesheet" href="/css/style.css" media="all">
 <body>
-<div>这是专业添加页面</div>
+<div>这是班级添加页面</div>
 <div class="layuimini-container layuimini=page-anim">
     <div class="layuimini-main width_60">
         <form action="" class="layui-form">
             <div class="layui-form-item">
-                <label class="layui-form-label">专业名称</label>
+                <label class="layui-form-label">班级名称</label>
                 <div class="layui-input-block">
-                    <input type="text" name="subjectName" required lay-verify="required" class="layui-input">
+                    <input type="text" name="clazzName" required lay-verify="required" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">所属院系</label>
+                <label class="layui-form-label">所选专业</label>
                 <div class="layui-input-block">
-                    <input type="text" name="college" required lay-verify="required" class="layui-input">
+                    <select   name="subjectId" lay-filter="aihao">
+                        <option value="">请选择一个专业</option>
+                        <option th:each="subject:${subjects}" th:text="${subject.subjectName}" th:value="${subject.id}"></option>
+                    </select>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -55,7 +58,7 @@
             console.log("点击了提交按钮，准备添加数据");
             console.log(data.field);
             $.ajax({
-                url:'/subject/add',
+                url:'/clazz/add',
                 type:'POST',
                 dataType:'json',
                 data:data.field,

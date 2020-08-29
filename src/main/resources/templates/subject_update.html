@@ -1,39 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Title</title>
     <link rel="stylesheet" href="/lib/layui-src/css/layui.css" media="all">
     <link rel="stylesheet" href="/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
     <link rel="stylesheet" href="/css/style.css" media="all">
 <body>
-<div>这是专业添加页面</div>
+<div>这是专业修改页面</div>
 <div class="layuimini-container layuimini=page-anim">
+    <div>测试</div>
+    <span th:value="123"></span>
     <div class="layuimini-main width_60">
         <form action="" class="layui-form">
+            <input type="hidden" th:value="${subject.id}" name="id">
             <div class="layui-form-item">
                 <label class="layui-form-label">专业名称</label>
                 <div class="layui-input-block">
-                    <input type="text" name="subjectName" required lay-verify="required" class="layui-input">
+                    <input  type="text" th:value="${subject.subjectName}" name="subjectName" required lay-verify="required" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">所属院系</label>
                 <div class="layui-input-block">
-                    <input type="text" name="college" required lay-verify="required" class="layui-input">
+                    <input type="text" th:value="${subject.college}" name="college" required lay-verify="required" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">备注</label>
                 <div class="layui-input-block">
-                    <input type="text" name="remark" required lay-verify="required" class="layui-input">
+                    <input type="text" th:value="${subject.remark}" name="remark" required lay-verify="required" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn layui-btn-primary layui-btn-sm data-add-btn">
-                        <i class="fa fa-refresh"></i>
-                        重置
-                    </button>
                     <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-submit lay-filter="save">
                         <i class="fa fa-save"></i>
                         保存
@@ -55,7 +54,7 @@
             console.log("点击了提交按钮，准备添加数据");
             console.log(data.field);
             $.ajax({
-                url:'/subject/add',
+                url:'/subject/update',
                 type:'POST',
                 dataType:'json',
                 data:data.field,
@@ -63,11 +62,11 @@
                     console.log("添加成功");
                     console.log(data);
                     if(data.code == 200){
-                        layer.msg("添加成功",{time:1000},function () {
+                        layer.msg("修改成功",{time:1000},function () {
                             parent.layer.close(index);
                         })
                     }else if(data.code == 400){
-                        layer.msg("添加失败",{time:1000})
+                        layer.msg("修改失败",{time:1000})
                     }
 
                 },
