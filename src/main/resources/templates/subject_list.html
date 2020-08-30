@@ -79,7 +79,7 @@
             table.reload("currentTableId",{
                 url:'/subject/query',
                 where:data.field
-            })
+            });
             return false;
         });
         table.on('toolbar(currentTableFilter)',function (obj) {
@@ -110,7 +110,7 @@
                         layer.setTop(layero); //重点2
                     },
                     end:function () {
-                        console.log("添加已经完成了，关闭了iframe框")
+                        console.log("添加已经完成了，关闭了iframe框");
                         table.reload("currentTableId",{
                             url:'/subject/query'
                         })
@@ -119,7 +119,9 @@
             }
             if(obj.event == 'update'){
                 console.log("ids:"+ids);
-                if(ids.includes("-")){
+                if(ids == ""){
+                    layer.msg("请选择一个要修改的对象，一次只能修改一个对象",{time:1500})
+                }else if(ids.includes("-")){
                     layer.msg("修改时只能选择一个对象，不能同时选择多个",{time:1500})
                 }else{
                     console.log("点击了修改按钮");

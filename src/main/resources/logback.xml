@@ -8,7 +8,8 @@
                     converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
     <!--    <property name="LOG_HOME" value="E:\yk\java\javaLog" />-->
-    <property name="LOG_HOME" value="E:\/yk\/java\/javaLog" />
+<!--    <property name="LOG_HOME" value="E:\/yk\/java\/javaLog" />-->
+    <property name="LOG_HOME" value="/Users/luffyk/Documents/java/log" />
 
     <!-- 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">

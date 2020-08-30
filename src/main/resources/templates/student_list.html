@@ -131,7 +131,9 @@
             }
             if(obj.event == 'update'){
                 console.log("ids:"+ids);
-                if(ids.includes("-")){
+                if(ids == "") {
+                    layer.msg("请选择一个要修改的对象，一次只能修改一个对象", {time: 1500})
+                }else if(ids.includes("-")){
                     layer.msg("修改时只能选择一个对象，不能同时选择多个",{time:1500})
                 }else{
                     console.log("点击了修改按钮");

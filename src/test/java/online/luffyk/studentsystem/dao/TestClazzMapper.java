@@ -47,7 +47,7 @@ public class TestClazzMapper {
 
     @Test
     public void testDeleteByPrimaryKey(){
-        int delete = clazzMapper.deleteByPrimaryKey(23);
+        int delete = clazzMapper.deleteByPrimaryKey(33);
         if(delete == 1){
             logger.debug("删除成功");
         }else{
@@ -65,6 +65,15 @@ public class TestClazzMapper {
             logger.debug("修改成功");
         }else{
             logger.debug("修改失败");
+        }
+    }
+
+    @Test
+    public void testShowAllClazzBySubjectIdDao(){
+        System.out.println("clazzMapper:"+clazzMapper);
+        List<Clazz> clazzes = clazzMapper.showAllClazzBySubjectIdDao(17);
+        for(Clazz clazz:clazzes){
+            logger.debug("clazz:"+clazz);
         }
     }
 }

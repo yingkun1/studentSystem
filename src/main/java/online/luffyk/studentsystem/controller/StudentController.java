@@ -2,8 +2,10 @@ package online.luffyk.studentsystem.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import online.luffyk.studentsystem.domain.Clazz;
 import online.luffyk.studentsystem.domain.Student;
 import online.luffyk.studentsystem.domain.Subject;
+import online.luffyk.studentsystem.service.ClazzService;
 import online.luffyk.studentsystem.service.StudentService;
 import online.luffyk.studentsystem.service.SubjectService;
 import online.luffyk.studentsystem.utils.Result;
@@ -28,6 +30,9 @@ public class StudentController {
 
     @Resource
     private SubjectService subjectService;
+
+    @Resource
+    private ClazzService clazzService;
     /**
      *
      * @return  跳转到学生展示页面
@@ -63,6 +68,43 @@ public class StudentController {
         List<Subject> subjects = subjectService.showAllSubjectService(null);
         model.addAttribute("subjects",subjects);
         return "student_add";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "add",method = RequestMethod.POST)
+    public Result add(Student student){
+        logger.debug("student:"+student);
+        int count = studentService.insertSelectiveService(student);
+        if(count == 1){
+            return new Result(200,null,"添加数据成功");
+        }else{
+            return new Result(400,null,"添加数据失败");
+        }
+    }
+
+    @RequestMapping(value = "update",method = RequestMethod.GET)
+    public String updatePage(String ids,Model model){
+        logger.debug("ids:"+ids);
+        List<Subject> subjects = subjectService.showAllSubjectService(null);
+        List<Clazz> clazzes = clazzService.showAllClazzService(null);
+        Student student = studentService.selectByPrimaryKeyService(Integer.valueOf(ids));
+        model.addAttribute("student",student);
+        model.addAttribute("subjects",subjects);
+        model.addAttribute("clazzes",clazzes);
+        return "student_update";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "update",method = RequestMethod.POST)
+    public Result update(Student student){
+        logger.debug("======================================================");
+        logger.debug("student:"+student);
+        int update = studentService.updateByPrimaryKeySelectiveService(student);
+        if(update == 1){
+            return new Result(200,null,"更新学生信息成功");
+        }else{
+            return new Result(400,null,"更新学生信息失败");
+        }
     }
 
     @ResponseBody

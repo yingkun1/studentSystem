@@ -34,4 +34,8 @@ public interface ClazzService {
      * @return 班级信息
      */
     Clazz selectByPrimaryKeyService(Integer id);
+
+    List<Clazz> showAllClazzBySubjectIdService(Integer subjectId);
+
+
 }

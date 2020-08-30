@@ -28,4 +28,22 @@ public class StudentServiceImpl implements StudentService {
     public Integer deleteByPrimaryKeyService(Integer id) {
         return studentMapper.deleteByPrimaryKey(id);
     }
+
+    @Transactional
+    @Override
+    public int insertSelectiveService(Student record) {
+        return studentMapper.insertSelective(record);
+    }
+
+    @Override
+    public Student selectByPrimaryKeyService(Integer id) {
+        return studentMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelectiveService(Student record) {
+        return studentMapper.updateByPrimaryKey(record);
+    }
+
+
 }

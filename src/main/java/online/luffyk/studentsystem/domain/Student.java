@@ -1,5 +1,7 @@
 package online.luffyk.studentsystem.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Student extends Entity {
@@ -25,6 +27,7 @@ public class Student extends Entity {
 
     private String addr;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date joinDate;
 
     private String status;

@@ -6,87 +6,93 @@
     <link rel="stylesheet" href="/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
     <link rel="stylesheet" href="/css/style.css" media="all">
 <body>
-<div>这是学生添加页面</div>
+<div>这是学生修改页面</div>
 <div class="layuimini-container layuimini=page-anim">
+    <div>测试</div>
+    <span th:value="123"></span>
     <div class="layuimini-main width_60">
         <form action="" class="layui-form">
+            <input type="hidden" th:value="${student.id}"  name="id">
+
             <div class="layui-form-item">
                 <label class="layui-form-label">所选专业</label>
                 <div class="layui-input-block">
-                    <select   name="subjectId" lay-filter="subjectId">
-                        <option value="">请选择一个专业123</option>
-                        <option th:each="subject:${subjects}" th:text="${subject.subjectName}" th:value="${subject.id}"></option>
+                    <select   name="subjectId" lay-filter="aihao">
+                        <option value="">请选择一个专业</option>
+                        <option th:each="subject:${subjects}" th:text="${subject.subjectName}" th:value="${subject.id}" th:if="${subject.id} eq ${student.subjectId}" th:selected="selected"></option>
+                        <option th:each="subject:${subjects}" th:text="${subject.subjectName}" th:value="${subject.id}" th:if="${subject.id} != ${student.subjectId}"></option>
                     </select>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">所选班级</label>
+                <label class="layui-form-label">班级名称</label>
                 <div class="layui-input-block">
-                    <select  id="subjectId" name="clazzId" lay-filter="subjectId">
+                    <select   name="subjectId" lay-filter="aihao">
                         <option value="">请选择一个班级</option>
-<!--                        <option th:each="subject:${subjects}" th:text="${subject.subjectName}" th:value="${subject.id}"></option>-->
+                        <option th:each="clazz:${clazzes}" th:text="${clazz.clazzName}" th:value="${clazz.id}" th:if="${clazz.id} eq ${student.clazzId}" th:selected="selected"></option>
+                        <option th:each="clazz:${clazzes}" th:text="${clazz.clazzName}" th:value="${clazz.id}" th:if="${clazz.id} != ${student.clazzId}"></option>
                     </select>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">入学时间</label>
                 <div class="layui-input-block">
-                    <input type="text" name="joinDate" autocomplete="off" lay-verify="date|required"  placeholder="yyyy-MM-dd" id="joinDate" class="layui-input">
+                    <input type="text" th:value="${#dates.format(student.joinDate,'yyyy-MM-dd')}" name="joinDate" autocomplete="off" lay-verify="date|required"  placeholder="yyyy-MM-dd" id="joinDate" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">学号</label>
                 <div class="layui-input-block">
-                    <input type="text" name="stuNo" lay-verify="required" class="layui-input">
+                    <input type="text" th:value="${student.stuNo}" name="stuNo" lay-verify="required" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">姓名</label>
                 <div class="layui-input-block">
-                    <input type="text" name="stuName" lay-verify="required" class="layui-input">
+                    <input type="text" name="stuName" th:value="${student.stuName}" lay-verify="required" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">密码</label>
                 <div class="layui-input-block">
-                    <input type="text" name="stuPwd" lay-verify="required" class="layui-input" value="123456">
+                    <input type="text" name="stuPwd" th:value="${student.stuPwd}" lay-verify="required" class="layui-input" value="123456">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">身份证号</label>
                 <div class="layui-input-block">
-                    <input type="text" name="cardNo" value="123123123123123123" lay-verify="identity|required" class="layui-input">
+                    <input type="text" name="cardNo" th:value="${student.cardNo}"  lay-verify="identity|required" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">性别</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="gender" value="男" title="男" checked="checked">
-                    <input type="radio" name="gender" value="女" title="女" >
+                    <input type="radio" name="gender" value="男" title="男" th:checked="${student.gender} == '男' ?true:false">
+                    <input type="radio" name="gender" value="女" title="女" th:checked="${student.gender} == '女' ?true:false">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">手机号码</label>
                 <div class="layui-input-block">
-                    <input type="text" name="phone" value="18533333333" lay-verify="phone|required" class="layui-input">
+                    <input type="text" name="phone" th:value="${student.phone}" value="18533333333" lay-verify="phone|required" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">父母姓名</label>
                 <div class="layui-input-block">
-                    <input type="text" name="pname" lay-verify="required" class="layui-input">
+                    <input type="text" name="pname" th:value="${student.pname}" lay-verify="required" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">联系电话</label>
                 <div class="layui-input-block">
-                    <input type="text" name="telephone" lay-verify="required" class="layui-input">
+                    <input type="text" name="telephone" th:value="${student.telephone}" lay-verify="required" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">家庭地址</label>
                 <div class="layui-input-block">
-                    <input type="text" name="addr" lay-verify="required" class="layui-input">
+                    <input type="text" name="addr" th:value="${student.addr}" lay-verify="required" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -112,55 +118,16 @@
             laydate = layui.laydate,
             $ = layui.jquery;
         laydate.render({
-            elem:"#joinDate",
-            trigger: "click"
+            elem:'#joinDate',
+            trigger:'click'
         });
         var index = parent.layer.getFrameIndex(window.name);
         console.log("index:"+index);
-        form.on('select(subjectId)', function(data){
-            $("#subjectId").empty();
-            console.log("点击了下拉框");
-            console.log(data.elem); //得到select原始DOM对象
-            console.log(data.value); //得到被选中的值
-            console.log(data.othis); //得到美化后的DOM对象
-            if(data.value!=""){
-                $.ajax({
-                    url:"/clazz/query/"+data.value,
-                    type:'POST',
-                    dataType: 'json',
-                    data:{},
-                    success:function (data) {
-                        if(data.code == 200){
-                            console.log("获取班级信息成功");
-                            console.log(data.data);
-                            console.log($("#subjectId"));
-
-                            data.data.forEach(function (value,index,array) {
-                                console.log("id:"+value.id);
-                                console.log("clazzName:"+value.clazzName);
-                                console.log("index:"+index);
-                                console.log("array:"+array);
-                                $("#subjectId").append('<option value='+value.id+'>'+value.clazzName+'</option>');
-                            });
-                            form.render();
-                        }else{
-                            console.log("获取班级信息失败")
-                        }
-                    },
-                    error:function () {
-                        console.log("修改失败");
-                    }
-                })
-            }else{
-                console.log("没有选择对应的专业，不发起班级请求")
-            }
-
-        });
         form.on('submit(save)',function (data) {
-            console.log("点击了提交按钮，准备添加数据");
+            console.log("点击了提交按钮，准备修改数据");
             console.log(data.field);
             $.ajax({
-                url:'/student/add',
+                url:'/student/update',
                 type:'POST',
                 dataType:'json',
                 data:data.field,
@@ -168,18 +135,18 @@
                     console.log("添加成功");
                     console.log(data);
                     if(data.code == 200){
-                        layer.msg("添加成功",{time:1000},function () {
+                        layer.msg("修改成功",{time:1000},function () {
                             parent.layer.close(index);
                         })
                     }else if(data.code == 400){
-                        layer.msg("添加失败",{time:1000})
+                        layer.msg("修改失败",{time:1000})
                     }
 
                 },
                 error:function (data) {
                     layer.msg("添加失败：",{time:500})
-                },
-            });
+                }
+            })
             return false;
         });
 

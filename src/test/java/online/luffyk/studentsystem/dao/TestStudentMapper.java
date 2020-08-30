@@ -30,4 +30,10 @@ public class TestStudentMapper {
             logger.debug("student:"+student);
         }
     }
+
+    @Test
+    public void testInsertSelective(){
+        Student student = studentMapper.selectByPrimaryKey(24);
+        logger.debug("student:"+student);
+    }
 }

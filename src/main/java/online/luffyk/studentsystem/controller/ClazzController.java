@@ -8,15 +8,11 @@ import online.luffyk.studentsystem.service.ClazzService;
 import online.luffyk.studentsystem.service.SubjectService;
 import online.luffyk.studentsystem.utils.Result;
 import online.luffyk.studentsystem.utils.TableResult;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -50,6 +46,18 @@ public class ClazzController {
             return new TableResult(1000,"获取全部班级信息成功",Integer.valueOf(String.valueOf(pageInfo.getTotal())),clazzes);
         }else{
             return new TableResult(-1,"没有获取到班级信息",0,null);
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "query/{subject_id}",method = RequestMethod.POST)
+    public Result queryClazzBySubjectId(@PathVariable("subject_id") String subjectId){
+        logger.debug("subjectId:"+subjectId);
+        List<Clazz> clazzes = clazzService.showAllClazzBySubjectIdService(Integer.valueOf(subjectId));
+        if(clazzes.size()>0){
+            return new Result(200,clazzes,"获取到对应专业下的斑鸠信息");
+        }else{
+            return new Result(400,null,"没有获取到对应专业下的班级信息");
         }
     }
 

@@ -28,4 +28,11 @@ public interface ClazzMapper {
      * @return 返回所有的班级信息
      */
     List<Clazz> showAllClazz2Dao(Clazz clazz);
+
+    /**
+     *
+     * @param subjectId 专业的id
+     * @return 该专业下的所有课程
+     */
+    List<Clazz> showAllClazzBySubjectIdDao(Integer subjectId);
 }

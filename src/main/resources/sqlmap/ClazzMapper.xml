@@ -20,6 +20,10 @@
      </where>
   </select>
 
+  <select id="showAllClazzBySubjectIdDao" resultMap="BaseResultMap">
+    select * from tb_clazz where subject_id = #{subjectId}
+  </select>
+
   <resultMap id="subjectResultMap" type="Subject">
     <id column="sId" property="id"/>
     <result column="subject_name" property="subjectName"/>

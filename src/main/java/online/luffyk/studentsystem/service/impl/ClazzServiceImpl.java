@@ -40,4 +40,9 @@ public class ClazzServiceImpl implements ClazzService {
     public Clazz selectByPrimaryKeyService(Integer id) {
         return clazzMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public List<Clazz> showAllClazzBySubjectIdService(Integer subjectId) {
+        return clazzMapper.showAllClazzBySubjectIdDao(subjectId);
+    }
 }
