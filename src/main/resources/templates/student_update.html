@@ -27,7 +27,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">班级名称</label>
                 <div class="layui-input-block">
-                    <select   name="subjectId" lay-filter="aihao">
+                    <select   name="clazzId" lay-filter="aihao">
                         <option value="">请选择一个班级</option>
                         <option th:each="clazz:${clazzes}" th:text="${clazz.clazzName}" th:value="${clazz.id}" th:if="${clazz.id} eq ${student.clazzId}" th:selected="selected"></option>
                         <option th:each="clazz:${clazzes}" th:text="${clazz.clazzName}" th:value="${clazz.id}" th:if="${clazz.id} != ${student.clazzId}"></option>
@@ -113,6 +113,7 @@
 <script src="/lib/layui-src/layui.js" charset="utf-8"></script>
 <script src="/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 <script>
+
     layui.use(['form','jquery','laydate'], function () {
         var form = layui.form,
             laydate = layui.laydate,
@@ -123,6 +124,7 @@
         });
         var index = parent.layer.getFrameIndex(window.name);
         console.log("index:"+index);
+
         form.on('submit(save)',function (data) {
             console.log("点击了提交按钮，准备修改数据");
             console.log(data.field);
