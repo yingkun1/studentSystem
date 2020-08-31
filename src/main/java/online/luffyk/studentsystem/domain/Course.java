@@ -1,6 +1,6 @@
 package online.luffyk.studentsystem.domain;
 
-public class Course {
+public class Course extends Entity {
     private Integer id;
 
     private String courseName;

@@ -9,6 +9,15 @@
   <sql id="Base_Column_List">
     id, course_name, remark
   </sql>
+
+  <select id="queryAllCourseDao" resultMap="BaseResultMap">
+    select * from tb_course
+    <where>
+      <if test="courseName!=null and courseName!=''">
+        course_name like CONCAT("%",#{courseName},"%")
+      </if>
+    </where>
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
