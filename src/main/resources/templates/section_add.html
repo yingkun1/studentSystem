@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <link rel="stylesheet" href="/lib/layui-src/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="/css/style.css" media="all">
+<body>
+<div>这是学生添加页面</div>
+<div class="layuimini-container layuimini=page-anim">
+    <div class="layuimini-main width_60">
+        <form action="" class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">年份</label>
+                <div class="layui-input-block">
+                    <input type="text" name="year" lay-verify="required" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">季节</label>
+                <div class="layui-input-block">
+                    <select name="type" lay-verify="required">
+                        <option value="">请选择一个季节</option>
+                        <option value="春季">春季</option>
+                        <option value="秋季">秋季</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">教师</label>
+                <div class="layui-input-block">
+                    <select name="teacherId" lay-verify="required" lay-filter="teacherId">
+                        <option value="">请选择一个老师</option>
+                        <option value="" th:each="teacher:${teachers}" th:text="${teacher.name}" th:value="${teacher.id}">请选择一个教师</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">课程名称</label>
+                <div class="layui-input-block">
+                    <select name="classId" lay-verify="required">
+                        <option value="">请选择一个教师</option>
+                        <option value="春季">测试的老师</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-primary layui-btn-sm data-add-btn">
+                        <i class="fa fa-refresh"></i>
+                        重置
+                    </button>
+                    <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-submit lay-filter="save">
+                        <i class="fa fa-save"></i>
+                        保存
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/lib/layui-src/layui.js" charset="utf-8"></script>
+<script src="/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+<script>
+    layui.use(['form','jquery','laydate'], function () {
+        var form = layui.form,
+            laydate = layui.laydate,
+            $ = layui.jquery;
+        laydate.render({
+            elem:"#joinDate",
+            trigger: "click"
+        });
+        var index = parent.layer.getFrameIndex(window.name);
+        console.log("index:"+index);
+        form.on('select(teacherId)',function (data) {
+            console.log("点击了下拉框");
+            console.log(data.value);
+            $.ajax({
+                url:'/course/query/'+data.value,
+                type:'post',
+                dataType:'json',
+                data:{},
+                success:function (data) {
+                    console.log("查询成功");
+                },
+                error:function (data) {
+                    console.log("查询失败");
+                }
+            })
+        })
+        form.on('submit(save)',function (data) {
+            console.log("点击了提交按钮，准备添加数据");
+            console.log(data.field);
+            $.ajax({
+                url:'/section/add',
+                type:'POST',
+                dataType:'json',
+                data:data.field,
+                success:function (data) {
+                    console.log("添加成功");
+                    console.log(data);
+                    if(data.code == 200){
+                        layer.msg("添加成功",{time:1000},function () {
+                            parent.layer.close(index);
+                        })
+                    }else if(data.code == 400){
+                        layer.msg("添加失败",{time:1000})
+                    }
+
+                },
+                error:function (data) {
+                    layer.msg("添加失败：",{time:500})
+                },
+            });
+            return false;
+        });
+
+    });
+</script>
+
+
+</body>
+</html>

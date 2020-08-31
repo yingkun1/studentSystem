@@ -13,6 +13,9 @@
   <sql id="Base_Column_List">
     id, year, type, clazz_id, teacher_id, course_id, remark
   </sql>
+  <select id="queryAllSectionDao" resultMap="BaseResultMap">
+    select * from tb_section
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

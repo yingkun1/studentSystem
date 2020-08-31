@@ -1,6 +1,6 @@
 package online.luffyk.studentsystem.domain;
 
-public class Section {
+public class Section extends Entity{
     private Integer id;
 
     private Integer year;
