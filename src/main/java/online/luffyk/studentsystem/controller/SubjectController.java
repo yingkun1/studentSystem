@@ -2,6 +2,7 @@ package online.luffyk.studentsystem.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import online.luffyk.studentsystem.domain.Clazz;
 import online.luffyk.studentsystem.domain.Subject;
 import online.luffyk.studentsystem.service.SubjectService;
 import online.luffyk.studentsystem.utils.Result;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 @RequestMapping("subject")
@@ -103,6 +105,17 @@ public class SubjectController {
             }
         }
         return new Result(200,null,"删除成功");
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "queryAll",method = RequestMethod.GET)
+    public Result showAllSubjectAndClazz(){
+        List<Subject> subjects = subjectService.showAllSubjectAndClazzService();
+        if(subjects.size()>0){
+            return new Result(200,subjects,"获取对应的信息成功");
+        }else{
+            return new Result(400,null,"获取对应的数据失败");
+        }
     }
 
 }

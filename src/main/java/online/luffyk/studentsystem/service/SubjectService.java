@@ -34,4 +34,10 @@ public interface SubjectService {
      * @return 受影响的行数
      */
     int updateByPrimaryKeySelectiveService(Subject record);
+
+    /**
+     *
+     * @return 专业和班级绑定的信息
+     */
+    List<Subject> showAllSubjectAndClazzService();
 }

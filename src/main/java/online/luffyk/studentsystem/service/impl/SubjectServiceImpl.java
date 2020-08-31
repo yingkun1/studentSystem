@@ -41,4 +41,9 @@ public class SubjectServiceImpl implements SubjectService {
     public int updateByPrimaryKeySelectiveService(Subject record) {
         return subjectMapper.updateByPrimaryKeySelective(record);
     }
+
+    @Override
+    public List<Subject> showAllSubjectAndClazzService() {
+        return subjectMapper.showAllSubjectAndClazzDao();
+    }
 }

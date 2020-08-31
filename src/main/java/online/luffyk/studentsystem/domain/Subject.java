@@ -1,5 +1,7 @@
 package online.luffyk.studentsystem.domain;
 
+import java.util.List;
+
 public class Subject extends Entity {
     private Integer id;
 
@@ -9,14 +11,17 @@ public class Subject extends Entity {
 
     private String remark;
 
+    private List<Clazz> clazzList;
+
     public Subject() {
     }
 
-    public Subject(Integer id, String subjectName, String college, String remark) {
+    public Subject(Integer id, String subjectName, String college, String remark, List<Clazz> clazzList) {
         this.id = id;
         this.subjectName = subjectName;
         this.college = college;
         this.remark = remark;
+        this.clazzList = clazzList;
     }
 
     public Integer getId() {
@@ -32,7 +37,7 @@ public class Subject extends Entity {
     }
 
     public void setSubjectName(String subjectName) {
-        this.subjectName = subjectName == null ? null : subjectName.trim();
+        this.subjectName = subjectName;
     }
 
     public String getCollege() {
@@ -40,7 +45,7 @@ public class Subject extends Entity {
     }
 
     public void setCollege(String college) {
-        this.college = college == null ? null : college.trim();
+        this.college = college;
     }
 
     public String getRemark() {
@@ -48,7 +53,15 @@ public class Subject extends Entity {
     }
 
     public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+        this.remark = remark;
+    }
+
+    public List<Clazz> getClazzList() {
+        return clazzList;
+    }
+
+    public void setClazzList(List<Clazz> clazzList) {
+        this.clazzList = clazzList;
     }
 
     @Override
@@ -58,6 +71,7 @@ public class Subject extends Entity {
                 ", subjectName='" + subjectName + '\'' +
                 ", college='" + college + '\'' +
                 ", remark='" + remark + '\'' +
+                ", clazzList=" + clazzList +
                 '}';
     }
 }

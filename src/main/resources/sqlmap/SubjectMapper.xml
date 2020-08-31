@@ -7,6 +7,36 @@
     <result column="college" jdbcType="VARCHAR" property="college" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
+
+  <resultMap id="clazzResultMap" type="Clazz">
+    <id column="cId" property="id"/>
+    <result column="clazz_name" property="clazzName"/>
+    <result column="remark" property="remark"/>
+    <result column="subject_id" property="subjectId"/>
+  </resultMap>
+  <resultMap id="subjectAndClazzResultMap" type="Subject">
+    <id column="sId" property="id"/>
+    <result column="subject_name" property="subjectName"/>
+    <result column="college" property="college"/>
+    <result column="remark" property="remark"/>
+    <collection property="clazzList" resultMap="clazzResultMap"/>
+  </resultMap>
+  <select id="showAllSubjectAndClazzDao" resultMap="subjectAndClazzResultMap">
+    SELECT
+        sub.id as sId,
+        sub.subject_name,
+        sub.college,
+      sub.remark,
+        cla.id as cId,
+        cla.clazz_name,
+        cla.remark,
+        cla.subject_id
+    FROM
+        tb_subject AS sub
+        LEFT JOIN tb_clazz AS cla ON sub.id = cla.subject_id
+    ORDER BY
+        subject_id;
+  </select>
   <select id="showAllSubjectDao" resultMap="BaseResultMap">
     select * from tb_subject
     <where>

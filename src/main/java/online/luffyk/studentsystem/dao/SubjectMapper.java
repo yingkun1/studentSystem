@@ -22,4 +22,10 @@ public interface SubjectMapper {
      * @return 返回所有的专业列表
      */
     List<Subject> showAllSubjectDao(Subject subject);
+
+    /**
+     *
+     * @return 获取所有的专业和专业下的课程名称
+     */
+    List<Subject> showAllSubjectAndClazzDao();
 }

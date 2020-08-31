@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import online.luffyk.studentsystem.domain.User;
 import online.luffyk.studentsystem.service.UserService;
+import online.luffyk.studentsystem.utils.MD5Util;
 import online.luffyk.studentsystem.utils.Result;
 import online.luffyk.studentsystem.utils.TableResult;
 import org.slf4j.Logger;
@@ -13,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RequestMapping("user")
@@ -67,7 +70,10 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = "add",method = RequestMethod.POST)
-    public Object add(User user){
+    public Object add(User user) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        String userPwd = user.getUserPwd();
+        String md5Password = MD5Util.getMD5(userPwd);
+        user.setUserPwd(md5Password);
         int i = userService.insertSelectiveService(user);
         if(i==1){
             return new Result(200,null,"添加数据成功");

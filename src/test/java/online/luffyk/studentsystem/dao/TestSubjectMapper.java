@@ -36,7 +36,7 @@ public class TestSubjectMapper {
 
     @Test
     public void testInsert(){
-        Subject subject = new Subject(null, "音乐表演系", "艺术学院", "都是艺术型人才");
+        Subject subject = new Subject(null, "音乐表演系", "艺术学院", "都是艺术型人才",null);
         int count = subjectMapper.insert(subject);
         if(count == 1){
             logger.debug("添加成功");
@@ -60,6 +60,14 @@ public class TestSubjectMapper {
             logger.debug("更新成功");
         }else{
             logger.debug("更新失败");
+        }
+    }
+
+    @Test
+    public void testShowAllSubjectAndClazzDao(){
+        List<Subject> subjects = subjectMapper.showAllSubjectAndClazzDao();
+        for(Subject subject:subjects){
+            logger.debug("subject:"+subject);
         }
     }
 }
