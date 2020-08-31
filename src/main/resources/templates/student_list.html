@@ -162,34 +162,39 @@
             }
             if(obj.event == 'delete'){
                 console.log("点击了删除按钮");
-                layer.confirm("确定要删除这些数据吗?",function (index) {
-                    $.ajax({
-                        url:'/student/delete',
-                        type: 'POST',
-                        dataType:'json',
-                        data:{
-                            ids:ids
-                        },
-                        success:function (data) {
-                            if(data.code == 200){
-                                console.log("删除成功");
-                                layer.msg(data.message,{time:500},function () {
-                                    table.reload("currentTableId",{
-                                        url:'/student/query'
+                if(ids == "") {
+                    layer.msg("请选择一个要修改的对象，一次只能修改一个对象", {time: 1500})
+                }else{
+                    layer.confirm("确定要删除这些数据吗?",function (index) {
+                        $.ajax({
+                            url:'/student/delete',
+                            type: 'POST',
+                            dataType:'json',
+                            data:{
+                                ids:ids
+                            },
+                            success:function (data) {
+                                if(data.code == 200){
+                                    console.log("删除成功");
+                                    layer.msg(data.message,{time:500},function () {
+                                        table.reload("currentTableId",{
+                                            url:'/student/query'
+                                        })
                                     })
-                                })
 
-                            }else if(data.code == 400){
-                                console.log("删除失败");
+                                }else if(data.code == 400){
+                                    console.log("删除失败");
+                                }
+
+                            },
+                            error:function (data) {
+                                console.log("删除失败")
                             }
-
-                        },
-                        error:function (data) {
-                            console.log("删除失败")
-                        }
+                        })
+                        layer.close(index);
                     })
-                    layer.close(index);
-                })
+                }
+
             }
         })
     })

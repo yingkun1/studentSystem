@@ -4,6 +4,8 @@ import online.luffyk.studentsystem.domain.Teacher;
 import online.luffyk.studentsystem.domain.User;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface TeacherMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -24,4 +26,12 @@ public interface TeacherMapper {
      * @return 若用户存在则进行返回
      */
     Teacher loginVerifyDao(@Param("userName") String userName, @Param("password") String password);
+
+    /**
+     *
+     * @param teacher 教师信息
+     * @return 教师的信息
+     */
+    List<Teacher> queryAllTeacherDao(Teacher teacher);
+
 }

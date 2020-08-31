@@ -13,6 +13,14 @@
     select * from tb_teacher where teacher_name=#{userName} and teacher_pwd=#{password}
   </select>
 
+  <select id="queryAllTeacherDao" resultMap="BaseResultMap">
+    select * from tb_teacher
+    <where>
+      <if test="name!=null and name!=''">
+        name like CONCAT("%",#{name},"%")
+      </if>
+    </where>
+  </select>
 
   <sql id="Base_Column_List">
     id, teacher_name, teacher_pwd, remark, name

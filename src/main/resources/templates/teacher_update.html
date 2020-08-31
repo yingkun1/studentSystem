@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <link rel="stylesheet" href="/lib/layui-src/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="/css/style.css" media="all">
+<body>
+<div>这是专业修改页面</div>
+<div class="layuimini-container layuimini=page-anim">
+    <div>测试</div>
+    <span th:value="123"></span>
+    <div class="layuimini-main width_60">
+        <form action="" class="layui-form">
+            <input type="hidden" th:value="${teacher.id}"  name="id">
+            <div class="layui-form-item">
+                <label class="layui-form-label">账号</label>
+                <div class="layui-input-block">
+                    <input type="text" th:value="${teacher.teacherName}" name="teacherName" lay-verify="required" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" th:value="${teacher.name}" name="name" lay-verify="required" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                    <input type="text"  th:value="${teacher.teacherPwd}" name="teacherPwd" lay-verify="required" value="123456" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-submit lay-filter="save">
+                        <i class="fa fa-save"></i>
+                        保存
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/lib/layui-src/layui.js" charset="utf-8"></script>
+<script src="/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+<script>
+    layui.use(['form','jquery'], function () {
+        var form = layui.form,
+            $ = layui.jquery;
+        var index = parent.layer.getFrameIndex(window.name);
+        console.log("index:"+index);
+        form.on('submit(save)',function (data) {
+            console.log("点击了提交按钮，准备修改数据");
+            console.log(data.field);
+            $.ajax({
+                url:'/teacher/update',
+                type:'POST',
+                dataType:'json',
+                data:data.field,
+                success:function (data) {
+                    console.log("添加成功");
+                    console.log(data);
+                    if(data.code == 200){
+                        layer.msg("修改成功",{time:1000},function () {
+                            parent.layer.close(index);
+                        })
+                    }else if(data.code == 400){
+                        layer.msg("修改失败",{time:1000})
+                    }
+
+                },
+                error:function (data) {
+                    layer.msg("添加失败：",{time:500})
+                }
+            })
+            return false;
+        });
+
+    });
+</script>
+
+
+</body>
+</html>
