@@ -6,7 +6,6 @@ import online.luffyk.studentsystem.domain.Course;
 import online.luffyk.studentsystem.service.CourseService;
 import online.luffyk.studentsystem.utils.Result;
 import online.luffyk.studentsystem.utils.TableResult;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,7 @@ import java.util.List;
 @RequestMapping("course")
 @Controller
 public class CourseController {
-    private Logger logger = LoggerFactory.getLogger(CourseController.class);
+    private final Logger logger = LoggerFactory.getLogger(CourseController.class);
     @Resource
     private CourseService courseService;
 

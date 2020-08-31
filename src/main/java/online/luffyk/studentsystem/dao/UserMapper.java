@@ -3,6 +3,8 @@ package online.luffyk.studentsystem.dao;
 import online.luffyk.studentsystem.domain.User;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface UserMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -23,4 +25,11 @@ public interface UserMapper {
      * @return 若用户存在则进行返回
      */
     User loginVerifyDao(@Param("userName") String userName,@Param("password") String password);
+
+    /**
+     *
+     * @param user 用户信息
+     * @return 模糊查询返回的结果
+     */
+    List<User> queryAllUserDao(User user);
 }

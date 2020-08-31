@@ -6,6 +6,7 @@ import online.luffyk.studentsystem.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,5 +21,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public User loginVerifyService(String userName, String password) {
         return userMapper.loginVerifyDao(userName,password);
+    }
+
+    @Override
+    public List<User> queryAllUserService(User user) {
+        return userMapper.queryAllUserDao(user);
+    }
+
+    @Override
+    public int deleteByPrimaryKeyService(Integer id) {
+        return userMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int insertSelectiveService(User record) {
+        return userMapper.insertSelective(record);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelectiveService(User record) {
+        return userMapper.updateByPrimaryKeySelective(record);
     }
 }

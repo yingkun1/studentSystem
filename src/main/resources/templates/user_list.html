@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+</head>
+<body>
+
+<div class="layuimini-container layuimini-page-anim">
+    <div class="layuimini-main">
+        <div style="margin: 10px">
+            <form class="layui-form layui-form-pane">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">用户名</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="userName" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">姓名</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layui-btn-primary"  lay-submit lay-filter="search-btn"><i class="layui-icon"></i> 搜 索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <script type="text/html" id="toolbar">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add">
+                    <i class="fa fa-plus"></i>
+                    添加
+                </button>
+                <button class="layui-btn layui-btn-sm layui-btn-normal data-delete-btn" lay-event="update">
+                    <i class="fa fa-pencil"></i>
+                    修改
+                </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete">
+                    <i class="fa fa-remove"></i>
+                    删除
+                </button>
+            </div>
+        </script>
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
+</div>
+<script>
+    layui.use(['form','table','jquery'],function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+        table.render({
+            elem: '#currentTableId',
+            url: '/user/query',
+            // contentType:'application/json',
+            method:"post",
+            toolbar: '#toolbar',
+            defaultToolbar: ['filter', 'exports', 'print'],
+            page: true,
+            height: 615, //固定值
+            cols: [
+                [
+                    {type: "checkbox", width: 50},
+                    {field: 'userName', width: 180, title: '用户名'},
+                    {field: 'name', width: 180, title: '姓名'},
+                    {field: 'remark',title: '备注'}
+                ]
+            ],
+            // skin: 'line'
+        });
+        form.on('submit(search-btn)',function (data) {
+            console.log("点击了搜索按钮，表单准备提交");
+            console.log(data.field);
+            table.reload("currentTableId",{
+                url:'/user/query',
+                where:data.field
+            })
+            return false;
+        });
+        table.on('toolbar(currentTableFilter)',function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            let data = checkStatus.data;
+            var ids = "";
+            console.log(data);
+            for(var i = 0;i<data.length;i++){
+                if(i<data.length-1){
+                    ids = ids+ data[i].id+"-";
+                }else {
+                    ids = ids + data[i].id
+                }
+            }
+            console.log(ids);
+
+            if(obj.event == 'add'){
+                console.log("点击了添加按钮");
+                layer.open({
+                    title:'添加用户',
+                    type: 2,
+                    shade: 0.2,
+                    area: ['75%','75%'],
+                    maxmin: true,
+                    content: '/user/add',
+                    zIndex: layer.zIndex, //重点1
+                    success: function(layero){
+                        layer.setTop(layero); //重点2
+                    },
+                    end:function () {
+                        console.log("添加已经完成了，关闭了iframe框")
+                        table.reload("currentTableId",{
+                            url:'/user/query'
+                        })
+                    }
+                });
+            }
+            if(obj.event == 'update'){
+                console.log("ids:"+ids);
+                if(ids == "") {
+                    layer.msg("请选择一个要修改的对象，一次只能修改一个对象", {time: 1500})
+                }else if(ids.includes("-")){
+                    layer.msg("修改时只能选择一个对象，不能同时选择多个",{time:1500})
+                }else{
+                    console.log("点击了修改按钮");
+                    layer.open({
+                        title:'修改用户',
+                        type:2,
+                        shade:0.2,
+                        area:['75%','75%'],
+                        maxmin:true,
+                        content:'/user/update?ids='+ids,
+                        zIndex:layer.zIndex,
+                        success: function (layero, index) {
+                            var iframe = window['layui-layer-iframe' + index];//拿到iframe元素
+                            console.log(iframe);
+                            // iframe.child(JSON.stringify(ids))//向此iframe层方法 传递参数
+                        },
+                        end:function () {
+                            console.log("修改已经完成了，关闭iframe框")
+                            table.reload("currentTableId",{
+                                url:'/user/query'
+                            })
+                        }
+                    })
+                }
+                console.log("点击了编辑按钮");
+            }
+            if(obj.event == 'delete'){
+                console.log("点击了删除按钮");
+                if(ids == "") {
+                    layer.msg("请选择一个要修改的对象，一次只能修改一个对象", {time: 1500})
+                }else{
+                    layer.confirm("确定要删除这些数据吗?",function (index) {
+                        $.ajax({
+                            url:'/user/delete',
+                            type: 'POST',
+                            dataType:'json',
+                            data:{
+                                ids:ids
+                            },
+                            success:function (data) {
+                                if(data.code == 200){
+                                    console.log("删除成功");
+                                    layer.msg(data.message,{time:500},function () {
+                                        table.reload("currentTableId",{
+                                            url:'/user/query'
+                                        })
+                                    })
+
+                                }else if(data.code == 400){
+                                    console.log("删除失败");
+                                }
+
+                            },
+                            error:function (data) {
+                                console.log("删除失败")
+                            }
+                        })
+                        layer.close(index);
+                    })
+                }
+
+            }
+        })
+    })
+
+</script>
+</body>
+</html>
