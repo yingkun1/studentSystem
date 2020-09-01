@@ -21,7 +21,7 @@ public class MD5Util {
 
     public static void main(String[] args) {
         try {
-            String md5 = getMD5("teacher");
+            String md5 = getMD5("student");
             System.out.println(md5);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();

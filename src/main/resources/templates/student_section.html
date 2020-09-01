@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生管理</title>
+</head>
+<body>
+<div class="layuimini-container layuimini-page-anim">
+    <div class="layuimini-main">
+        <div class="layui-row">
+            <script type="text/html" id="toolbar">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="save">
+                        <i class="fa fa-save"></i>
+                        保存
+                    </button>
+                </div>
+            </script>
+            <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+        </div>
+
+    </div>
+</div>
+<script>
+    layui.use(['form','table','jquery'],function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+        table.render({
+            elem: '#currentTableId',
+            url: '/section/query_student_section',
+            // contentType:'application/json',
+            method:"post",
+            toolbar: '#toolbar',
+            defaultToolbar: ['filter', 'exports', 'print'],
+            page: true,
+            height: 615, //固定值
+            cols: [
+                [
+                    {type: "checkbox", width: 50},
+                    {field: 'id', width: 80, title: 'ID'},
+                    {field: 'year',  title: '年份'},
+                    {field: 'type', title: '类型'},
+                    {field: 'clazzName', title: '班级',templet:function (d) {
+                            if(d.clazz!=null&&d.clazz!=''){
+                                return d.clazz.clazzName
+                            }
+                        }},
+                    {field: 'courseName', title: '课程',templet: function (d) {
+                            if(d.course!=null&&d.course!=''){
+                                return d.course.courseName
+                            }
+                        }},
+                    {field: 'teacherName', title: '老师',templet: function (d) {
+                            if(d.teacher!=null&&d.teacher!=''){
+                                return d.teacher.teacherName
+                            }
+                        }},
+
+                    {field: 'remark',title: '备注'},
+                ]
+            ],
+            // skin: 'line'
+        });
+        table.on('toolbar(currentTableFilter)',function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            let data = checkStatus.data;
+            var ids = "";
+            console.log(data);
+            for(var i = 0;i<data.length;i++){
+                if(i<data.length-1){
+                    ids = ids+ data[i].id+"-";
+                }else {
+                    ids = ids + data[i].id
+                }
+            }
+            console.log(ids);
+
+
+            if(obj.event == 'save'){
+                console.log("点击了保存按钮");
+                if(ids == "") {
+                    layer.msg("请选择一个要保存的对象", {time: 1500})
+                }else{
+                    console.log("准备遍历data")
+                    console.log(data);
+                    var sectionIds = [];
+                    var courseIds = [];
+                    $.each(data,function (index,item) {
+                        sectionIds.push(item.id);
+                        courseIds.push(item.course.id);
+                    })
+                    console.log("sectionIds:"+sectionIds);
+                    console.log("courseIds:"+courseIds);
+                    layer.confirm("确定要保存这些数据吗?",function (index) {
+                        $.ajax({
+                            url:'score/create',
+                            type:'POST',
+                            dataType:'json',
+                            data:{
+                                sectionIds:sectionIds.join("-"),
+                                courseIds:courseIds.join("-"),
+                            },
+                            success:function (data) {
+                                console.log("选择课程成功");
+                                layer.msg(data.message,{time:500},function () {
+                                    table.reload("currentTableId",{
+                                        url:'/section/query_student_section'
+                                    })
+                                })
+                            },
+                            error:function (data) {
+                                console.log("选择课程失败");
+                            }
+                        })
+                    })
+                }
+
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

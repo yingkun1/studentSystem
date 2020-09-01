@@ -24,4 +24,20 @@ public class TestSectionMapper {
             logger.debug("section:"+section);
         }
     }
+
+    @Test
+    public void testqueryAllSectionDao2(){
+        List<Section> sections = sectionMapper.queryAllSectionDao2(null);
+        for(Section section:sections){
+            logger.debug("section:"+section);
+        }
+    }
+
+    @Test
+    public void testQueryByStudentDao(){
+        List<Section> sections = sectionMapper.queryByStudentDao(16);
+        for(Section section:sections){
+            logger.debug("section:"+section);
+        }
+    }
 }

@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -157,6 +158,31 @@ public class SectionController {
             }
         }
         return new Result(200,null,"学期信息删除成功");
+    }
+
+    @RequestMapping(value = "student_section",method = RequestMethod.GET)
+    public String studentSectionPage(){
+        return "student_section";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "query_student_section",method = RequestMethod.POST)
+    public TableResult studentSection(Section section,HttpSession session){
+        Student student = (Student) session.getAttribute("user");
+        logger.debug("student:"+student);
+        Integer studentId = student.getId();
+        if(section!=null&&section.getPage()!=null&&section.getLimit()!=null){
+            Integer page = section.getPage();
+            Integer limit = section.getLimit();
+            PageHelper.startPage(page,limit);
+        }
+        List<Section> sections = sectionService.queryByStudentService(studentId);
+        if(sections.size()>0){
+            PageInfo<Section> pageInfo = new PageInfo<>(sections);
+            return new TableResult(1000,"获取到学生信息相关的学期信息",Integer.valueOf(String.valueOf(pageInfo.getTotal())),sections);
+        }else{
+            return new TableResult(-1,"没有获取学生信息相关的学期信息",0,null);
+        }
     }
 
 }

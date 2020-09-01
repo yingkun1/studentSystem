@@ -15,10 +15,18 @@ public class Section extends Entity{
 
     private String remark;
 
+    private Course course;
+
+    private Teacher teacher;
+
+    private Clazz clazz;
+
+    private Integer selectNum;
+
     public Section() {
     }
 
-    public Section(Integer id, Integer year, String type, Integer clazzId, Integer teacherId, Integer courseId, String remark) {
+    public Section(Integer id, Integer year, String type, Integer clazzId, Integer teacherId, Integer courseId, String remark, Course course, Teacher teacher, Clazz clazz, Integer selectNum) {
         this.id = id;
         this.year = year;
         this.type = type;
@@ -26,6 +34,10 @@ public class Section extends Entity{
         this.teacherId = teacherId;
         this.courseId = courseId;
         this.remark = remark;
+        this.course = course;
+        this.teacher = teacher;
+        this.clazz = clazz;
+        this.selectNum = selectNum;
     }
 
     public Integer getId() {
@@ -49,7 +61,7 @@ public class Section extends Entity{
     }
 
     public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+        this.type = type;
     }
 
     public Integer getClazzId() {
@@ -81,7 +93,39 @@ public class Section extends Entity{
     }
 
     public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+        this.remark = remark;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public Clazz getClazz() {
+        return clazz;
+    }
+
+    public void setClazz(Clazz clazz) {
+        this.clazz = clazz;
+    }
+
+    public Integer getSelectNum() {
+        return selectNum;
+    }
+
+    public void setSelectNum(Integer selectNum) {
+        this.selectNum = selectNum;
     }
 
     @Override
@@ -94,6 +138,10 @@ public class Section extends Entity{
                 ", teacherId=" + teacherId +
                 ", courseId=" + courseId +
                 ", remark='" + remark + '\'' +
+                ", course=" + course +
+                ", teacher=" + teacher +
+                ", clazz=" + clazz +
+                ", selectNum=" + selectNum +
                 '}';
     }
 }

@@ -89,6 +89,16 @@
                     {field: 'id', width: 180, title: 'ID'},
                     {field: 'year', width: 180, title: '年份'},
                     {field: 'type',width: 180,title: '类型'},
+                    {field: 'courseName',width:180,title:'课程名称',templet:function (d) {
+                            if(d.course!=null){
+                                return d.course.courseName
+                            }
+                        }},
+                    {field: 'teacherName',width:180,title:'教师名称',templet:function (d) {
+                            if(d.teacher!=null){
+                                return d.teacher.name
+                            }
+                        }},
                     {field: 'remark',title: '备注'}
                 ]
             ],

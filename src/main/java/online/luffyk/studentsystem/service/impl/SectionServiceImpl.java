@@ -15,7 +15,7 @@ public class SectionServiceImpl implements SectionService {
 
     @Override
     public List<Section> queryAllSectionService(Section section) {
-        return sectionMapper.queryAllSectionDao(section);
+        return sectionMapper.queryAllSectionDao2(section);
     }
 
 
@@ -38,6 +38,11 @@ public class SectionServiceImpl implements SectionService {
     @Override
     public int updateByPrimaryKeySelectiveService(Section record) {
         return sectionMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public List<Section> queryByStudentService(Integer stuId) {
+        return sectionMapper.queryByStudentDao(stuId);
     }
 
 

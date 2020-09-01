@@ -14,7 +14,7 @@
       "icon": "fa fa-address-book",
       "href": "",
       "target": "_self",
-      "type": "1",
+      "type": 1,
       "child": [
         {
           "title": "专业管理",
@@ -72,7 +72,7 @@
       "icon": "fa fa-address-book",
       "href": "",
       "target": "_self",
-      "type": "3",
+      "type": 3,
       "child": [
         {
           "title": "选课管理",
@@ -98,7 +98,7 @@
       "icon": "fa fa-address-book",
       "href": "",
       "target": "_self",
-      "type": "2",
+      "type": 2,
       "child": [
         {
           "title": "成绩管理",

@@ -40,4 +40,11 @@ public interface SectionService {
      * @return 受影响的行数
      */
     int updateByPrimaryKeySelectiveService(Section record);
+
+    /**
+     *
+     * @param stuId 学生的id
+     * @return 对应的学期信息
+     */
+    List<Section> queryByStudentService(Integer stuId);
 }

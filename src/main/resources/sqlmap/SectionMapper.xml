@@ -21,6 +21,114 @@
       </if>
     </where>
   </select>
+  <resultMap id="courseResultMap" type="Course">
+    <id property="id" column="id"/>
+    <result column="course_name" property="courseName"/>
+  </resultMap>
+  <resultMap id="teacherResultMap" type="Teacher">
+    <id column="tId" property="id"/>
+    <result column="name" property="name"/>
+  </resultMap>
+  <resultMap id="sectionAndCourseAndTeacherResultMap" type="Section">
+    <id column="id" property="id"/>
+    <result column="year" property="year"/>
+    <result column="type" property="type"/>
+    <result column="remark" property="remark"/>
+    <association property="teacher" resultMap="teacherResultMap"/>
+    <association property="course" resultMap="courseResultMap"/>
+  </resultMap>
+  <select id="queryAllSectionDao2" resultMap="sectionAndCourseAndTeacherResultMap">
+    SELECT
+        sec.id,
+        sec.year,
+        sec.type,
+        sec.remark,
+        tec.id AS tId,
+        tec.`name`,
+        cou.id AS cId,
+        cou.course_name
+    FROM
+        tb_section AS sec
+        LEFT JOIN tb_teacher AS tec ON sec.teacher_id = tec.id
+        LEFT JOIN tb_course AS cou ON sec.course_id = cou.id
+    <where>
+      <if test="clazzId!=null and clazzId!=''">
+        clazz_id=#{clazzId}
+      </if>
+    </where>
+  </select>
+
+  <resultMap id="mycourseResultMap" type="Course">
+    <id column="course_id" property="id"/>
+    <result column="course_name" property="courseName"/>
+  </resultMap>
+  <resultMap id="clazzResultMap" type="Clazz">
+    <id column="clazz_id" property="id"/>
+    <result column="clazz_name" property="clazzName"/>
+  </resultMap>
+  <resultMap id="myteacherResultMap" type="Teacher">
+    <id column="teacher_id" property="id"/>
+    <result column="teacher_name" property="teacherName"/>
+  </resultMap>
+  <resultMap id="studentSectionResultMap" type="Section">
+    <id property="id" column="id"/>
+    <result column="year" property="year"/>
+    <result column="type" property="type"/>
+    <result column="clazz_id" property="clazzId"/>
+    <result column="teacher_id" property="teacherId"/>
+    <result column="course_id" property="courseId"/>
+    <result column="remark" property="remark"/>
+    <result column="select_num" property="selectNum"/>
+    <association property="clazz" resultMap="clazzResultMap"/>
+    <association property="teacher" resultMap="myteacherResultMap"/>
+    <association property="course" resultMap="mycourseResultMap"/>
+  </resultMap>
+  <select id="queryByStudentDao" resultMap="studentSectionResultMap">
+    SELECT
+        temp3.id,
+        temp3.YEAR,
+        temp3.type,
+        temp3.clazz_id,
+        temp3.teacher_id,
+        temp3.course_id,
+        temp3.remark,
+        temp3.stuId,
+        temp3.select_num,
+        testclazz.clazz_name,
+        testteacher.teacher_name,
+        testcourse.course_name
+    FROM
+        (
+        SELECT
+            temp1.id,
+            temp1.YEAR,
+            temp1.type,
+            temp1.clazz_id,
+            temp1.teacher_id,
+            temp1.course_id,
+            temp1.remark,
+            temp1.stuId,
+            temp2.select_num
+        FROM
+            ( SELECT section.*, student.id AS stuId FROM tb_section AS section INNER JOIN tb_student AS student ON section.clazz_id = student.clazz_id ) AS temp1
+            LEFT JOIN (
+            SELECT
+                student.id,
+                count(*) AS select_num
+            FROM
+                tb_student AS student
+                INNER JOIN tb_score score ON student.id = score.stu_id
+            GROUP BY
+                student.id
+            ) AS temp2 ON temp1.stuId = temp2.id
+        ) AS temp3
+        LEFT JOIN tb_clazz AS testclazz ON temp3.clazz_id = testclazz.id
+        LEFT JOIN tb_teacher AS testteacher ON temp3.teacher_id = testteacher.id
+        LEFT JOIN tb_course AS testcourse ON temp3.course_id = testcourse.id
+        WHERE
+        stuId = #{stuId}
+  </select>
+
 
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
