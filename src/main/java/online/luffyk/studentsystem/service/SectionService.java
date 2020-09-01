@@ -9,7 +9,9 @@ public interface SectionService {
      *
      * @return 返回所有的学期信息
      */
-    List<Section> queryAllSectionService();
+    List<Section> queryAllSectionService(Section section);
+
+
 
     /**
      *
@@ -17,4 +19,25 @@ public interface SectionService {
      * @return 收影响的行数
      */
     int deleteByPrimaryKeyService(Integer id);
+
+    /**
+     *
+     * @param record 学期信息
+     * @return 受影响的行数
+     */
+    int insertSelectiveService(Section record);
+
+    /**
+     *
+     * @param id 主键id
+     * @return 对应的学期信息
+     */
+    Section selectByPrimaryKeyService(Integer id);
+
+    /**
+     *
+     * @param record 学期信息
+     * @return 受影响的行数
+     */
+    int updateByPrimaryKeySelectiveService(Section record);
 }

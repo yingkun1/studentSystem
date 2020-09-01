@@ -15,7 +15,14 @@
   </sql>
   <select id="queryAllSectionDao" resultMap="BaseResultMap">
     select * from tb_section
+    <where>
+      <if test="clazzId!=null and clazzId!=''">
+        clazz_id=#{clazzId}
+      </if>
+    </where>
   </select>
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

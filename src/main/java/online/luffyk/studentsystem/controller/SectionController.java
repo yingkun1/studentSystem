@@ -3,22 +3,15 @@ package online.luffyk.studentsystem.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import online.luffyk.studentsystem.dao.SectionMapper;
-import online.luffyk.studentsystem.domain.Clazz;
-import online.luffyk.studentsystem.domain.Section;
-import online.luffyk.studentsystem.domain.Subject;
-import online.luffyk.studentsystem.domain.Teacher;
-import online.luffyk.studentsystem.service.SectionService;
-import online.luffyk.studentsystem.service.SubjectService;
-import online.luffyk.studentsystem.service.TeacherService;
+import online.luffyk.studentsystem.domain.*;
+import online.luffyk.studentsystem.service.*;
 import online.luffyk.studentsystem.utils.Result;
 import online.luffyk.studentsystem.utils.TableResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -43,6 +36,12 @@ public class SectionController {
 
     @Resource
     private TeacherService teacherService;
+
+    @Resource
+    private CourseService courseService;
+
+    @Resource
+    private ClazzService clazzService;
     /**
      *
      * @return 获取树所需要的数据
@@ -77,26 +76,72 @@ public class SectionController {
 
     @ResponseBody
     @RequestMapping(value = "query",method = RequestMethod.POST)
-    public TableResult queryAllSection(Section section){
+    public TableResult queryAllSection(@RequestBody Section section){
         if(section!=null && section.getPage()!=null && section.getLimit()!=null){
             Integer page = section.getPage();
             Integer limit = section.getLimit();
+            logger.debug("page:"+page);
+            logger.debug("limit:"+limit);
             PageHelper.startPage(page,limit);
         }
-        List<Section> sections = sectionService.queryAllSectionService();
+        List<Section> sections = sectionService.queryAllSectionService(section);
         if(sections.size()>0){
             PageInfo<Section> pageInfo = new PageInfo<>(sections);
             return new TableResult(1000,"获取学期信息成功",Integer.valueOf(String.valueOf(pageInfo.getTotal())),sections);
         }else{
-            return new TableResult(-1,"获取学期信息失败",0,null);
+            return new TableResult(-1,"暂时没有学期信息，请添加",0,null);
         }
     }
 
-    @RequestMapping(value = "add",method = RequestMethod.GET)
-    public String addPage(Model model){
+
+    @RequestMapping(value = "add/{clazzId}",method = RequestMethod.GET)
+    public String addPage(@PathVariable("clazzId") Integer clazzId, Model model){
+        logger.debug("=====================================================");
+        logger.debug("clazzId:"+clazzId);
+        logger.debug("=====================================================");
+        Clazz clazz = clazzService.selectByPrimaryKeyService(clazzId);
         List<Teacher> teachers = teacherService.queryAllTeacherService(null);
+        List<Course> courses = courseService.queryAllCourseService(null);
+        model.addAttribute("clazz",clazz);
         model.addAttribute("teachers",teachers);
+        model.addAttribute("courses",courses);
         return "section_add";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "add",method = RequestMethod.POST)
+    public Result add(Section section){
+        int insert = sectionService.insertSelectiveService(section);
+        if(insert == 1){
+            return new Result(200,null,"添加学期信息成功");
+        }else{
+            return new Result(400,null,"添加学期信息失败");
+        }
+    }
+
+    @RequestMapping("update")
+    public String updatePage(String ids,Model model){
+        Section section = sectionService.selectByPrimaryKeyService(Integer.valueOf(ids));
+        List<Teacher> teachers = teacherService.queryAllTeacherService(null);
+        List<Course> courses = courseService.queryAllCourseService(null);
+        model.addAttribute("teachers",teachers);
+        model.addAttribute("courses",courses);
+        model.addAttribute("section",section);
+        return "section_update";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "update",method = RequestMethod.POST)
+    public Result update(Section section){
+        logger.debug("=====================================================");
+        logger.debug("section:"+section);
+        logger.debug("=====================================================");
+        int update = sectionService.updateByPrimaryKeySelectiveService(section);
+        if(update == 1){
+            return new Result(200,null,"修改学期信息成功");
+        }else{
+            return new Result(400,null,"修改学期信息失败");
+        }
     }
 
     @ResponseBody

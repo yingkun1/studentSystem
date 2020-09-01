@@ -21,5 +21,7 @@ public interface SectionMapper {
      *
      * @return 获取所有的学期信息
      */
-    List<Section> queryAllSectionDao();
+    List<Section> queryAllSectionDao(Section section);
+
+
 }

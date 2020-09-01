@@ -14,12 +14,31 @@ public class SectionServiceImpl implements SectionService {
     private SectionMapper sectionMapper;
 
     @Override
-    public List<Section> queryAllSectionService() {
-        return sectionMapper.queryAllSectionDao();
+    public List<Section> queryAllSectionService(Section section) {
+        return sectionMapper.queryAllSectionDao(section);
     }
+
+
 
     @Override
     public int deleteByPrimaryKeyService(Integer id) {
         return sectionMapper.deleteByPrimaryKey(id);
     }
+
+    @Override
+    public int insertSelectiveService(Section record) {
+        return sectionMapper.insertSelective(record);
+    }
+
+    @Override
+    public Section selectByPrimaryKeyService(Integer id) {
+        return sectionMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelectiveService(Section record) {
+        return sectionMapper.updateByPrimaryKeySelective(record);
+    }
+
+
 }
