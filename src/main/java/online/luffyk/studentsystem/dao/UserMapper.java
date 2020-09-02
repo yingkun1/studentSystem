@@ -32,4 +32,6 @@ public interface UserMapper {
      * @return 模糊查询返回的结果
      */
     List<User> queryAllUserDao(User user);
+
+    Integer updatePwdDao(@Param("id") Integer id,@Param("newPwd") String newPwd);
 }

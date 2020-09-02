@@ -42,4 +42,9 @@ public class UserServiceImpl implements UserService {
     public int updateByPrimaryKeySelectiveService(User record) {
         return userMapper.updateByPrimaryKeySelective(record);
     }
+
+    @Override
+    public Integer updatePwdDao(Integer id, String newPwd) {
+        return userMapper.updatePwdDao(id,newPwd);
+    }
 }

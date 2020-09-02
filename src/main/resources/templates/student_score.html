@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生管理</title>
+</head>
+<body>
+<div class="layuimini-container layuimini-page-anim">
+    <div class="layuimini-main">
+        <div class="layui-row">
+            <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form','table','jquery'],function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+        table.render({
+            elem: '#currentTableId',
+            url: '/score/student_score',
+            // contentType:'application/json',
+            method:"post",
+            toolbar: '#toolbar',
+            defaultToolbar: ['filter', 'exports', 'print'],
+            page: true,
+            height: 615, //固定值
+            cols: [
+                [
+                    {type: "checkbox", width: 50},
+                    {field: 'id', width: 80, title: 'ID'},
+                    {field: 'stu_name',  title: '姓名',templet:function (d) {
+                            if(d.student!=null && d.student!=''){
+                                return d.student.stuName
+                            }
+                        }},
+                    {field: 'course_name', title: '课程名称',templet:function (d) {
+                            if(d.course!=null && d.course!=''){
+                                return d.course.courseName
+                            }
+                        }},
+                    {field: 'year', title: '年份',templet:function (d) {
+                            if(d.section!=null&&d.section!=''){
+                                return d.section.year
+                            }
+                        }},
+                    {field: 'type', title: '季节',templet:function (d) {
+                            if(d.section!=null&&d.section!=''){
+                                return d.section.type
+                            }
+                        }},
+                    {field: 'score', title: '分数'}
+                ]
+            ],
+            // skin: 'line'
+        });
+
+    })
+
+</script>
+</body>
+</html>

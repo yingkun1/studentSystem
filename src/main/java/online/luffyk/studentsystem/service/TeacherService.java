@@ -41,4 +41,11 @@ public interface TeacherService {
      * @return 受影响的行数
      */
     Integer updateByPrimaryKeySelectiveService(Teacher record);
+
+    /**
+     *
+     * @param teacherId
+     * @return
+     */
+    List<Teacher> SelectCourseAndClazzByTeacherIdService(Integer teacherId);
 }

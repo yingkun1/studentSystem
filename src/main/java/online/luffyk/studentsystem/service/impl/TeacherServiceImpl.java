@@ -45,4 +45,9 @@ public class TeacherServiceImpl implements TeacherService {
     public Integer updateByPrimaryKeySelectiveService(Teacher record) {
         return teacherMapper.updateByPrimaryKeySelective(record);
     }
+
+    @Override
+    public List<Teacher> SelectCourseAndClazzByTeacherIdService(Integer teacherId) {
+        return teacherMapper.selectCourseAndClazzByTeacherId(teacherId);
+    }
 }

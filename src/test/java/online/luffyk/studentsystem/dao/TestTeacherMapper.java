@@ -31,4 +31,12 @@ public class TestTeacherMapper {
             logger.debug("teacher"+value);
         }
     }
+
+    @Test
+    public void testSelectCourseAndClazzByTeacherId(){
+        List<Teacher> teachers = teacherMapper.selectCourseAndClazzByTeacherId(4);
+        for(Teacher teacher:teachers){
+            logger.debug("teacher:"+teacher);
+        }
+    }
 }

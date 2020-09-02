@@ -43,6 +43,9 @@ public class SectionController {
 
     @Resource
     private ClazzService clazzService;
+
+    @Resource
+    private StudentService studentService;
     /**
      *
      * @return 获取树所需要的数据
@@ -184,5 +187,47 @@ public class SectionController {
             return new TableResult(-1,"没有获取学生信息相关的学期信息",0,null);
         }
     }
+
+    @RequestMapping(value = "teacher_section",method = RequestMethod.GET)
+    public String teacherSectionPage(){
+        return "teacher_section";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "teacher_section",method = RequestMethod.POST)
+    public TableResult teacherSection(Teacher teacher,HttpSession session){
+        Teacher teacher1 = (Teacher) session.getAttribute("user");
+        Integer teacher1Id = teacher1.getId();
+        logger.debug("===============================");
+        logger.debug("teacherId:"+teacher1Id);
+        logger.debug("===============================");
+        if(teacher!=null && teacher.getPage()!=null&&teacher.getLimit()!=null){
+            Integer page = teacher.getPage();
+            Integer limit = teacher.getLimit();
+            PageHelper.startPage(page,limit);
+        }
+        List<Teacher> teachers = teacherService.SelectCourseAndClazzByTeacherIdService(teacher1Id);
+        if(teachers.size()>0){
+            PageInfo<Teacher> pageInfo = new PageInfo<>(teachers);
+            return new TableResult(1000,"获取教师的课程和班级信息成功",Integer.valueOf(String.valueOf(pageInfo.getTotal())),teachers);
+        }else{
+            return new TableResult(-1,"获取教师的课程和班级信息失败",0,null);
+        }
+
+    }
+
+    @RequestMapping(value = "teacher_student_score",method = RequestMethod.GET)
+    public String teacherStudentScorePage(String courseId,String sectionId,Model model){
+        logger.debug("courseId:"+courseId);
+        logger.debug("sectionId:"+sectionId);
+        List<Student> students = studentService.queryAllStudentByCourseIdAndSectionIdService(Integer.valueOf(sectionId), Integer.valueOf(courseId));
+        logger.debug("students:"+students);
+        model.addAttribute("students",students);
+        model.addAttribute("courseId",courseId);
+        model.addAttribute("sectionId",sectionId);
+        return "teacher_student_score";
+    }
+
+
 
 }

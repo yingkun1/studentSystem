@@ -22,6 +22,54 @@
     </where>
   </select>
 
+  <resultMap id="sectionResultMap" type="Section">
+    <id column="sectionId" property="id"/>
+    <result column="year" property="year"/>
+    <result column="type" property="type"/>
+  </resultMap>
+  <resultMap id="clazzResultMap" type="Clazz">
+    <id column="clazz_id" property="id"/>
+    <id column="clazz_name" property="clazzName"/>
+  </resultMap>
+  <resultMap id="courseResultMap" type="Course">
+    <id column="course_id" property="id"/>
+    <result column="course_name" property="courseName"/>
+  </resultMap>
+  <resultMap id="teacherAndCourseAndClazzResultMap" type="Teacher">
+    <id column="id" property="id"/>
+    <result column="name" property="name"/>
+    <association property="section" resultMap="sectionResultMap"/>
+    <association property="clazz" resultMap="clazzResultMap"/>
+    <association property="course" resultMap="courseResultMap"/>
+  </resultMap>
+  <select id="selectCourseAndClazzByTeacherId" resultMap="teacherAndCourseAndClazzResultMap">
+    SELECT
+        teacher.id,
+        teacher.name,
+        temp1.id as sectionId,
+        temp1.year,
+        temp1.type,
+        temp1.clazz_id,
+        temp1.teacher_id,
+        temp1.course_id,
+        temp1.course_name,
+        temp1.clazz_name
+    FROM
+        tb_teacher AS teacher
+        LEFT JOIN (
+        SELECT
+            section.*,
+            course.course_name,
+            clazz_name
+        FROM
+            tb_section AS section
+            INNER JOIN tb_course AS course ON section.course_id = course.id
+            INNER JOIN tb_clazz AS clazz ON section.clazz_id = clazz.id
+        ) AS temp1 ON teacher.id = temp1.teacher_id
+    WHERE
+        teacher.id = #{teacherId}
+  </select>
+
   <sql id="Base_Column_List">
     id, teacher_name, teacher_pwd, remark, name
   </sql>
@@ -95,6 +143,9 @@
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updatePwdDao">
+    update tb_user set user_pwd=#{newPwd} where id=#{id}
   </update>
   <update id="updateByPrimaryKey" parameterType="online.luffyk.studentsystem.domain.Teacher">
     update tb_teacher

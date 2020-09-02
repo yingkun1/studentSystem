@@ -11,15 +11,25 @@ public class Teacher extends Entity {
 
     private String name;
 
+    private Section section;
+
+    private Clazz clazz;
+
+    private Course course;
+
+
     public Teacher() {
     }
 
-    public Teacher(Integer id, String teacherName, String teacherPwd, String remark, String name) {
+    public Teacher(Integer id, String teacherName, String teacherPwd, String remark, String name, Section section, Clazz clazz, Course course) {
         this.id = id;
         this.teacherName = teacherName;
         this.teacherPwd = teacherPwd;
         this.remark = remark;
         this.name = name;
+        this.section = section;
+        this.clazz = clazz;
+        this.course = course;
     }
 
     public Integer getId() {
@@ -35,7 +45,7 @@ public class Teacher extends Entity {
     }
 
     public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName == null ? null : teacherName.trim();
+        this.teacherName = teacherName;
     }
 
     public String getTeacherPwd() {
@@ -43,7 +53,7 @@ public class Teacher extends Entity {
     }
 
     public void setTeacherPwd(String teacherPwd) {
-        this.teacherPwd = teacherPwd == null ? null : teacherPwd.trim();
+        this.teacherPwd = teacherPwd;
     }
 
     public String getRemark() {
@@ -51,7 +61,7 @@ public class Teacher extends Entity {
     }
 
     public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+        this.remark = remark;
     }
 
     public String getName() {
@@ -59,7 +69,31 @@ public class Teacher extends Entity {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
+    }
+
+    public Section getSection() {
+        return section;
+    }
+
+    public void setSection(Section section) {
+        this.section = section;
+    }
+
+    public Clazz getClazz() {
+        return clazz;
+    }
+
+    public void setClazz(Clazz clazz) {
+        this.clazz = clazz;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     @Override
@@ -70,6 +104,9 @@ public class Teacher extends Entity {
                 ", teacherPwd='" + teacherPwd + '\'' +
                 ", remark='" + remark + '\'' +
                 ", name='" + name + '\'' +
+                ", section=" + section +
+                ", clazz=" + clazz +
+                ", course=" + course +
                 '}';
     }
 }

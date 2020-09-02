@@ -34,4 +34,13 @@ public interface TeacherMapper {
      */
     List<Teacher> queryAllTeacherDao(Teacher teacher);
 
+    /**
+     *
+     * @param teacherId 教师的id
+     * @return 返回该教师所教授的课程和班级
+     */
+    List<Teacher> selectCourseAndClazzByTeacherId(Integer teacherId);
+
+    Integer updatePwdDao(@Param("id") Integer id,@Param("newPwd") String newPwd);
+
 }

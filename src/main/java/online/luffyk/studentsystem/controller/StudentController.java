@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import online.luffyk.studentsystem.domain.Clazz;
 import online.luffyk.studentsystem.domain.Student;
 import online.luffyk.studentsystem.domain.Subject;
+import online.luffyk.studentsystem.domain.Teacher;
 import online.luffyk.studentsystem.service.ClazzService;
 import online.luffyk.studentsystem.service.StudentService;
 import online.luffyk.studentsystem.service.SubjectService;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RequestMapping("student")
@@ -121,5 +123,35 @@ public class StudentController {
             }
         }
         return new Result(200,null,"删除成功");
+    }
+
+    @RequestMapping(value = "teacher_student",method = RequestMethod.GET)
+    public String teacherStudentPage(Model model){
+        List<Subject> subjects = subjectService.showAllSubjectService(null);
+        List<Clazz> clazzes = clazzService.showAllClazzService(null);
+        model.addAttribute("subjects",subjects);
+        model.addAttribute("clazzes",clazzes);
+        return "teacher_student";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "teacher_student",method = RequestMethod.POST)
+    public TableResult teacherStudent(Integer page,Integer limit,Integer clazzId,Integer subjectId,HttpSession session){
+        logger.debug("page:"+page);
+        logger.debug("limit:"+limit);
+        logger.debug("clazzId:"+clazzId);
+        logger.debug("subjectId:"+subjectId);
+        Teacher teacher1 = (Teacher) session.getAttribute("user");
+        logger.debug("teacherId:"+teacher1.getId());
+        if(page!=null && limit!=null){
+            PageHelper.startPage(page,limit);
+        }
+        List<Student> students = studentService.queryStudentBuTeacherService(clazzId, subjectId, teacher1.getId());
+        if(students.size()>0){
+            PageInfo<Student> pageInfo = new PageInfo<>(students);
+            return new TableResult(1000,"获取学生信息成功",Integer.valueOf(String.valueOf(pageInfo.getTotal())),students);
+        }else{
+            return new TableResult(-1,"没有获取到学生信息",0,null);
+        }
     }
 }

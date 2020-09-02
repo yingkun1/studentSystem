@@ -11,6 +11,47 @@
   <sql id="Base_Column_List">
     id, section_id, course_id, stu_id, score
   </sql>
+
+  <resultMap id="sectionResultMap" type="Section">
+    <id column="section_id" property="id"/>
+    <result column="type" property="type"/>
+    <result column="year" property="year"/>
+  </resultMap>
+  <resultMap id="courseResultMap" type="Course">
+    <id column="course_id" property="id"/>
+    <result column="course_name" property="courseName"/>
+  </resultMap>
+  <resultMap id="studentResultMap" type="Student">
+    <id column="stu_id" property="id"/>
+    <result column="stu_name" property="stuName"/>
+  </resultMap>
+  <resultMap id="scoreAndCourseAndSectionResultMap" type="Score">
+    <id column="id" property="id"/>
+    <result column="score" property="score"/>
+    <association property="section" resultMap="sectionResultMap"/>
+    <association property="course" resultMap="courseResultMap"/>
+    <association property="student" resultMap="studentResultMap"/>
+  </resultMap>
+  <select id="selectByStudentIdDao" resultMap="scoreAndCourseAndSectionResultMap">
+    SELECT
+        score.id,
+        score.section_id,
+        score.course_id,
+        score.stu_id,
+        score.score,
+        section.type,
+        section.year,
+        course.course_name,
+        student.stu_name,
+        student.id AS stuId
+    FROM
+        tb_score AS score
+        LEFT JOIN tb_section AS section ON score.section_id = section.id
+        LEFT JOIN tb_course AS course ON score.course_id = course.id
+        LEFT JOIN tb_student AS student ON score.stu_id = student.id
+    WHERE
+        score.stu_id = #{stuId}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

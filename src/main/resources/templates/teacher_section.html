@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生管理</title>
+</head>
+<body>
+<div class="layuimini-container layuimini-page-anim">
+    <div class="layuimini-main">
+        <div class="layui-row">
+            <script type="text/html" id="toolbar">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="score">
+                        <i class="fa fa-save"></i>
+                        评分
+                    </button>
+                </div>
+            </script>
+            <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+        </div>
+
+    </div>
+</div>
+<script>
+    layui.use(['form','table','jquery'],function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+        table.render({
+            elem: '#currentTableId',
+            url: '/section/teacher_section',
+            // contentType:'application/json',
+            method:"post",
+            toolbar: '#toolbar',
+            defaultToolbar: ['filter', 'exports', 'print'],
+            page: true,
+            height: 615, //固定值
+            cols: [
+                [
+                    {type: "checkbox", width: 50},
+                    {field: 'id', width: 80, title: 'ID'},
+                    {field: 'name',  title: '姓名'},
+                    {field: 'year', title: '年份',templet:function (d) {
+                            if(d.section!=null&&d.section!=''){
+                                return d.section.year
+                            }
+                        }},
+                    {field: 'type', title: '季节',templet:function (d) {
+                            if(d.section!=null&&d.section!=''){
+                                return d.section.type
+                            }
+                        }},
+                    {field: 'courseName', title: '课程名称',templet:function (d) {
+                            if(d.course!=null && d.course!=''){
+                                return d.course.courseName
+                            }
+                        }},
+                    {field:'clazzNname',title:'班级名称',templet:function (d) {
+                            if(d.clazz!=null && d.clazz!=''){
+                                return d.clazz.clazzName
+                            }
+                        }},
+                ]
+            ],
+            // skin: 'line'
+        });
+        table.on('toolbar(currentTableFilter)',function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            let data = checkStatus.data;
+            var ids = "";
+            console.log(data);
+            for(var i = 0;i<data.length;i++){
+                if(i<data.length-1){
+                    ids = ids+ data[i].id+"-";
+                }else {
+                    ids = ids + data[i].id
+                }
+            }
+            console.log(ids);
+
+
+            if(obj.event == 'score'){
+                console.log("ids:"+ids);
+                var courseId = data[0].course.id;
+                var sectionId = data[0].section.id;
+                if(ids == "") {
+                    layer.msg("请选择一个要评分的课程，一次只能对一个课程进行评分", {time: 1500})
+                }else if(ids.includes("-")){
+                    layer.msg("修改时只能选择一个对象，不能同时选择多个",{time:1500})
+                }else{
+                    console.log("点击了评分按钮");
+                    layer.open({
+                        title:'修改用户',
+                        type:2,
+                        shade:0.2,
+                        area:['75%','75%'],
+                        maxmin:true,
+                        content:'/section/teacher_student_score?courseId='+courseId+'&sectionId='+sectionId,
+                        zIndex:layer.zIndex,
+                        success: function (layero, index) {
+                            var iframe = window['layui-layer-iframe' + index];//拿到iframe元素
+                            console.log(iframe);
+                            // iframe.child(JSON.stringify(ids))//向此iframe层方法 传递参数
+                        },
+                        end:function () {
+                            console.log("评分已经完成了，关闭iframe框")
+                            table.reload("currentTableId",{
+                                url:'/section/teacher_section'
+                            })
+                        }
+                    })
+                }
+                console.log("点击了编辑按钮");
+            }
+
+        })
+    })
+
+</script>
+</body>
+</html>

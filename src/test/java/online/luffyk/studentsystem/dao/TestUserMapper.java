@@ -37,4 +37,14 @@ public class TestUserMapper {
             logger.debug("user:"+value);
         }
     }
+
+    @Test
+    public void testUpdatePwdDao(){
+        Integer integer = userMapper.updatePwdDao(19, "789");
+        if(integer == 1){
+            logger.debug("更新成功");
+        }else{
+            logger.debug("更新失败");
+        }
+    }
 }

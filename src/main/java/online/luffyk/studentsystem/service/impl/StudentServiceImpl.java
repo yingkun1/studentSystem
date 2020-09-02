@@ -45,5 +45,15 @@ public class StudentServiceImpl implements StudentService {
         return studentMapper.updateByPrimaryKey(record);
     }
 
+    @Override
+    public List<Student> queryAllStudentByCourseIdAndSectionIdService(Integer sectionId, Integer courseId) {
+        return studentMapper.queryAllStudentByCourseIdAndSectionId(sectionId,courseId);
+    }
+
+    @Override
+    public List<Student> queryStudentBuTeacherService(Integer clazzId, Integer subjectId, Integer teacherId) {
+        return studentMapper.queryStudentByTeacher(clazzId,subjectId,teacherId);
+    }
+
 
 }

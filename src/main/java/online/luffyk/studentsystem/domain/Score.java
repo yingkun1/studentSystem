@@ -2,7 +2,7 @@ package online.luffyk.studentsystem.domain;
 
 import java.math.BigDecimal;
 
-public class Score {
+public class Score extends Entity {
     private Integer id;
 
     private Integer sectionId;
@@ -13,15 +13,24 @@ public class Score {
 
     private BigDecimal score;
 
+    private Section section;
+
+    private Course course;
+
+    private Student student;
+
     public Score() {
     }
 
-    public Score(Integer id, Integer sectionId, Integer courseId, Integer stuId, BigDecimal score) {
+    public Score(Integer id, Integer sectionId, Integer courseId, Integer stuId, BigDecimal score, Section section, Course course, Student student) {
         this.id = id;
         this.sectionId = sectionId;
         this.courseId = courseId;
         this.stuId = stuId;
         this.score = score;
+        this.section = section;
+        this.course = course;
+        this.student = student;
     }
 
     public Integer getId() {
@@ -64,6 +73,30 @@ public class Score {
         this.score = score;
     }
 
+    public Section getSection() {
+        return section;
+    }
+
+    public void setSection(Section section) {
+        this.section = section;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
     @Override
     public String toString() {
         return "Score{" +
@@ -72,6 +105,9 @@ public class Score {
                 ", courseId=" + courseId +
                 ", stuId=" + stuId +
                 ", score=" + score +
+                ", section=" + section +
+                ", course=" + course +
+                ", student=" + student +
                 '}';
     }
 }

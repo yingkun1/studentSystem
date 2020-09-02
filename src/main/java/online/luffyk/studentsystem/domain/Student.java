@@ -40,10 +40,12 @@ public class Student extends Entity {
 
     private Clazz clazz;
 
+    private Score score;
+
     public Student() {
     }
 
-    public Student(Integer id, String stuNo, String stuName, String stuPwd, String cardNo, String gender, Date birthday, String phone, String pname, String telephone, String addr, Date joinDate, String status, Integer clazzId, Integer subjectId, Subject subject, Clazz clazz) {
+    public Student(Integer id, String stuNo, String stuName, String stuPwd, String cardNo, String gender, Date birthday, String phone, String pname, String telephone, String addr, Date joinDate, String status, Integer clazzId, Integer subjectId, Subject subject, Clazz clazz, Score score) {
         this.id = id;
         this.stuNo = stuNo;
         this.stuName = stuName;
@@ -61,6 +63,7 @@ public class Student extends Entity {
         this.subjectId = subjectId;
         this.subject = subject;
         this.clazz = clazz;
+        this.score = score;
     }
 
     public Integer getId() {
@@ -199,6 +202,14 @@ public class Student extends Entity {
         this.clazz = clazz;
     }
 
+    public Score getScore() {
+        return score;
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -219,6 +230,7 @@ public class Student extends Entity {
                 ", subjectId=" + subjectId +
                 ", subject=" + subject +
                 ", clazz=" + clazz +
+                ", score=" + score +
                 '}';
     }
 }

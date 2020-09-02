@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <link rel="stylesheet" href="/lib/layui-src/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="/css/style.css" media="all">
+<body>
+<div>这是学生添加页面</div>
+<div class="layuimini-container layuimini=page-anim">
+    <div class="layuimini-main width_80">
+        <form class="layui-form">
+            <input type="hidden" name="course_id" th:value="${courseId}">
+            <input type="hidden" name="section_id" th:value="${sectionId}">
+            <table class="table-list" border="0">
+                <tr>
+                    <th width="80px">ID</th>
+                    <th width="150px">姓名</th>
+                    <th>
+                        分值
+                    </th>
+                </tr>
+                <tr th:each="student:${students}">
+                    <td th:text="${student.id}"></td>
+                    <td th:text="${student.stuName}"></td>
+                    <td>
+                        <input type="text" lay-verify="required"  class="layui-input" name="score" th:value="${student.score.score}">
+                        <input type="hidden"  name="score_id" th:value="${student.score.id}">
+                    </td>
+                </tr>
+
+            </table>
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-submit lay-event="save" lay-filter="save">
+                    <i class="fa fa-plus"></i>
+                    保存评分
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/lib/layui-src/layui.js" charset="utf-8"></script>
+<script src="/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+<script>
+    layui.use(['form','jquery','laydate'], function () {
+        var form = layui.form,
+            laydate = layui.laydate,
+            $ = layui.jquery;
+        laydate.render({
+            elem:"#joinDate",
+            trigger: "click"
+        });
+        var index = parent.layer.getFrameIndex(window.name);
+        console.log("index:"+index);
+        form.on('submit(save)',function (data) {
+            console.log("点击了提交按钮，准备添加数据");
+            var $score_input = $("input[name='score']");
+            var $score_id_input = $("input[name='score_id']");
+            var score_Array = [];
+            var score_id_Array = [];
+            $("")
+            $.each($score_input,function (index,item) {
+                score_Array.push(item.value);
+            })
+            $.each($score_id_input,function (index,item) {
+                score_id_Array.push(item.value);
+            })
+            console.log(score_Array.join("-"));
+            console.log(score_id_Array.join("-"));
+            $.ajax({
+                url:'/score/add',
+                type:'POST',
+                dataType:'json',
+                data:{
+                    "scores":score_Array.join("-"),
+                    "scoreIds":score_id_Array.join("-")
+                },
+                success:function (data) {
+                    console.log("添加成功");
+                    console.log(data);
+                    if(data.code == 200){
+                        layer.msg("添加成功",{time:1000},function () {
+                            // parent.layer.close(index);
+                        })
+                    }else if(data.code == 400){
+                        layer.msg("添加失败",{time:1000})
+                    }
+
+                },
+                error:function (data) {
+                    layer.msg("添加失败：",{time:500})
+                },
+            });
+            return false;
+        });
+
+    });
+</script>
+
+
+</body>
+</html>

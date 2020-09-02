@@ -1,6 +1,7 @@
 package online.luffyk.studentsystem.service;
 
 import online.luffyk.studentsystem.domain.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -36,6 +37,14 @@ public interface UserService {
      * @return 受影响的行数
      */
     int updateByPrimaryKeySelectiveService(User record);
+
+    /**
+     *
+     * @param id 用户id
+     * @param newPwd
+     * @return
+     */
+    Integer updatePwdDao(Integer id, String newPwd);
 
 
 }

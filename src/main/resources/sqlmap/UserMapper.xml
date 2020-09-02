@@ -26,7 +26,6 @@
       </if>
     </where>
   </select>
-
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -80,6 +79,9 @@
       </if>
     </trim>
   </insert>
+  <update id="updatePwdDao">
+    update tb_user set user_pwd=#{newPwd} where id=#{id}
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="online.luffyk.studentsystem.domain.User">
     update tb_user
     <set>

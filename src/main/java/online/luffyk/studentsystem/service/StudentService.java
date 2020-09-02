@@ -41,5 +41,22 @@ public interface StudentService {
      */
     int updateByPrimaryKeySelectiveService(Student record);
 
+    /**
+     *
+     * @param sectionId 学期id
+     * @param courseId 课程ids
+     * @return 对应的学生信息
+     */
+    List<Student> queryAllStudentByCourseIdAndSectionIdService(Integer sectionId,Integer courseId);
+
+    /**
+     *
+     * @param clazzId 班级di
+     * @param subjectId 专业id
+     * @param teacherId 教师id
+     * @return
+     */
+    List<Student> queryStudentBuTeacherService(Integer clazzId,Integer subjectId,Integer teacherId);
+
 
 }

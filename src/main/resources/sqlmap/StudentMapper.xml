@@ -23,6 +23,85 @@
     select * from tb_student where stu_name=#{userName} and stu_pwd=#{password}
   </select>
 
+  <resultMap id="subjectResultMap" type="Subject">
+    <id column="subject_id" property="id"/>
+    <result column="subject_name" property="subjectName"/>
+  </resultMap>
+  <resultMap id="clazzResultMap" type="Clazz">
+    <id column="clazz_id" property="id"/>
+    <result column="clazz_name" property="clazzName"/>
+  </resultMap>
+  <resultMap id="studentAndClazzAndSubjectResultMap" type="Student">
+    <id column="id" property="id"/>
+    <result column="stu_no" property="stuNo"/>
+    <result column="stu_name" property="stuName"/>
+    <result column="card_no" property="cardNo"/>
+    <result column="phone" property="phone"/>
+    <result column="join_date" property="joinDate"/>
+    <result column="gender" property="gender"/>
+    <association property="subject" resultMap="subjectResultMap"/>
+    <association property="clazz" resultMap="clazzResultMap"/>
+  </resultMap>
+  <select id="queryStudentByTeacher" resultMap="studentAndClazzAndSubjectResultMap">
+    SELECT
+      temp1.*,
+      SUBJECT.subject_name,
+      clazz.clazz_name
+      FROM
+      (
+      SELECT
+      student.id,
+      student.stu_no,
+      student.stu_name,
+      student.card_no,
+      student.phone,
+      student.join_date,
+      student.gender,
+      student.subject_id,
+      section.clazz_id,
+      section.teacher_id
+      FROM
+      tb_score AS score
+      INNER JOIN tb_student AS student ON score.stu_id = student.id
+      INNER JOIN tb_section AS section ON score.section_id = section.id
+      ) AS temp1
+      INNER JOIN tb_subject AS SUBJECT ON temp1.subject_id = SUBJECT.id
+      INNER JOIN tb_clazz AS clazz ON temp1.clazz_id = clazz.id
+    <where>
+      <if test="subjectId!=null">
+        AND  temp1.subject_id  = #{subjectId}
+      </if>
+      <if test="clazzId!=null">
+        AND  temp1.clazz_id = #{clazzId}
+      </if>
+      <if test="teacherId!=null">
+        AND teacher_id = #{teacherId}
+      </if>
+    </where>
+  </select>
+
+  <resultMap id="scoreResultMap" type="Score">
+    <id column="scoId" property="id"/>
+    <result column="score" property="score"/>
+  </resultMap>
+  <resultMap id="studentAndScoreResultMap" type="Student">
+    <id column="id" property="id"/>
+    <result column="stu_name" property="stuName"/>
+    <association property="score" resultMap="scoreResultMap"/>
+  </resultMap>
+  <select id="queryAllStudentByCourseIdAndSectionId" resultMap="studentAndScoreResultMap">
+    SELECT
+        student.id,
+        student.stu_name,
+        score.id as scoId,
+        score.score
+    FROM
+        tb_student AS student
+        LEFT JOIN tb_score AS score ON student.id = score.stu_id
+    WHERE
+        score.section_id = #{sectionId}
+        AND score.course_id = #{courseId}
+  </select>
   <resultMap id="subjectMap" type="Subject">
     <id column="subId" property="id"/>
     <result column="subject_name" property="subjectName"/>
@@ -189,6 +268,9 @@
       </if>
     </trim>
   </insert>
+  <update id="updatePwdDao">
+    update tb_user set user_pwd=#{newPwd} where id=#{id}
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="online.luffyk.studentsystem.domain.Student">
     update tb_student
     <set>

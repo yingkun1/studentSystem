@@ -32,4 +32,23 @@ public interface StudentMapper {
      * @return 获取所有的学生信息
      */
     List<Student> queryAllStudentDao(Student student);
+
+    /**
+     *
+     * @param sectionId 学期id
+     * @param courseId 课程id
+     * @return
+     */
+    List<Student> queryAllStudentByCourseIdAndSectionId(@Param("sectionId") Integer sectionId,@Param("courseId") Integer courseId);
+
+    /**
+     *
+     * @param clazzId 班级Id
+     * @param subjectId 专业Id
+     * @param teacherId 教师Id
+     * @return 对应的学生信息
+     */
+    List<Student> queryStudentByTeacher(Integer clazzId,Integer subjectId,Integer teacherId);
+
+    Integer updatePwdDao(@Param("id") Integer id,@Param("newPwd") String newPwd);
 }

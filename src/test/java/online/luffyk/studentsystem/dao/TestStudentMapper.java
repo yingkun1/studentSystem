@@ -1,6 +1,7 @@
 package online.luffyk.studentsystem.dao;
 
 import online.luffyk.studentsystem.domain.Student;
+import online.luffyk.studentsystem.domain.Teacher;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,5 +36,21 @@ public class TestStudentMapper {
     public void testInsertSelective(){
         Student student = studentMapper.selectByPrimaryKey(24);
         logger.debug("student:"+student);
+    }
+
+    @Test
+    public void testqueryAllStudentByCourseIdAndSectionId(){
+        List<Student> students = studentMapper.queryAllStudentByCourseIdAndSectionId(23, 10);
+        for(Student student:students){
+            logger.debug("student:"+student);
+        }
+    }
+
+    @Test
+    public void testQueryStudentByTeacher(){
+        List<Student> students = studentMapper.queryStudentByTeacher(15,17,4);
+        for(Student student:students){
+            logger.debug("student:"+student);
+        }
     }
 }

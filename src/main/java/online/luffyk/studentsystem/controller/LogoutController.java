@@ -15,6 +15,6 @@ public class LogoutController {
     public String logout(HttpSession session){
         logger.debug("用户准备退出");
         session.invalidate();
-        return "redirect:login";
+        return "redirect:/login";
     }
 }
